@@ -1,5 +1,7 @@
 package br.com.fiap.javaadv.blog.backend.infrastructure;
 
+import br.com.fiap.javaadv.blog.backend.datasource.repositories.*;
+import br.com.fiap.javaadv.blog.backend.domainmodel.entities.Usuario;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +14,16 @@ import java.util.UUID;
 public class DataLoader {
 
     @Bean
-    CommandLineRunner initDataTutPet() {
-        return args -> {};
+    CommandLineRunner initDataTutPet(
+            UsuarioRepository usuarioRep,
+            TipoSoloRepository tipoSoloRep,
+            PlantioRepository plantioRep,
+            EnderecoPlantioRepository enderecoPlantioRep,
+            DefensivoRepository defensivoRep,
+            AnalisePlantioRepository analisePlantioRep
+    ) {
+        return args -> {
+
+        };
     }
 }
