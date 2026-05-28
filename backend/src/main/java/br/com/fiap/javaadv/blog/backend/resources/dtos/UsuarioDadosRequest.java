@@ -12,7 +12,7 @@ public class UsuarioDadosRequest {
     private @Getter @Setter String senha;
     private @Getter @Setter String urlImg;
 
-    public static UsuarioDadosRequest ToDto(final Usuario usuario){
+    public static UsuarioDadosRequest toDto(final Usuario usuario){
         return UsuarioDadosRequest.builder()
                 .email(usuario.getEmail())
                 .telefone(usuario.getTelefone())
@@ -21,7 +21,7 @@ public class UsuarioDadosRequest {
                 .build();
     }
 
-    public static Usuario ToEntity(final UsuarioDadosRequest dto){
+    public static Usuario toEntity(final UsuarioDadosRequest dto){
         return Usuario.builder()
                 .email(dto.getEmail())
                 .telefone(dto.getTelefone())

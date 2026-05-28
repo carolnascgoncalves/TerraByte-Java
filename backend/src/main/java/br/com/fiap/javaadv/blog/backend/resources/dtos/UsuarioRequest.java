@@ -18,7 +18,7 @@ public class UsuarioRequest {
     private @Getter @Setter String email;
     private @Getter @Setter String senha;
 
-    public static UsuarioRequest ToDto(final Usuario usuario){
+    public static UsuarioRequest toDto(final Usuario usuario){
         return UsuarioRequest.builder()
                 .nome(usuario.getNome())
                 .dataNascimento(usuario.getDataNascimento())
@@ -29,7 +29,7 @@ public class UsuarioRequest {
                 .build();
     }
 
-    public static Usuario ToEntity(final UsuarioRequest dto){
+    public static Usuario toEntity(final UsuarioRequest dto){
         return Usuario.builder()
                 .nome(dto.getNome())
                 .dataNascimento(dto.getDataNascimento())
