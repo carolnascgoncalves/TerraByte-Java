@@ -21,9 +21,14 @@ public class EnderecoPlantio {
     @Id
     private @Getter @Setter UUID id;
 
-    @NotBlank(message= "O CEP é obrigatorio")
-    @Size(min = 8, max=10, message="O nome deve ter entre 8 à 9 caracteres")
+    @NotBlank(message= "O nome é obrigatorio")
+    @Size(min = 2, max=100, message="O nome deve ter entre 2 à 100 caracteres")
     @Column(name="CEP_end", length = 100, nullable = false)
+    private @Getter @Setter String nome;
+
+    @NotBlank(message= "O CEP é obrigatorio")
+    @Size(min = 8, max=9, message="O CEP deve ter entre 8 à 9 caracteres")
+    @Column(name="CEP_end", length = 10, nullable = false)
     private @Getter @Setter String cep;
 
     @Size(min = 2, max=100, message="O logradouro deve ter entre 2 à 100 caracteres")

@@ -42,6 +42,10 @@ public class Plantio {
     @Column(name="EPOCA_PLAN_plan", length = 100, nullable = false)
     private @Getter @Setter String epoca;
 
+    @Size(min = 4, max=100, message="A Url deve ter entre 4 à 100 caracteres")
+    @Column(name="SENHA_usu", length = 100)
+    private @Getter @Setter String urlImg;
+
     //RELACIONAMENTOS
     //N:N Defensivo
     @ManyToMany

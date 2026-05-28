@@ -1,0 +1,32 @@
+package br.com.fiap.javaadv.blog.backend.resources.dtos;
+
+import br.com.fiap.javaadv.blog.backend.domainmodel.entities.Usuario;
+import lombok.*;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class UsuarioDadosRequest {
+    private @Getter @Setter String email;
+    private @Getter @Setter String telefone;
+    private @Getter @Setter String senha;
+    private @Getter @Setter String urlImg;
+
+    public static UsuarioDadosRequest ToDto(final Usuario usuario){
+        return UsuarioDadosRequest.builder()
+                .email(usuario.getEmail())
+                .telefone(usuario.getTelefone())
+                .senha(usuario.getSenha())
+                .urlImg(usuario.getUrlImg())
+                .build();
+    }
+
+    public static Usuario ToEntity(final UsuarioDadosRequest dto){
+        return Usuario.builder()
+                .email(dto.getEmail())
+                .telefone(dto.getTelefone())
+                .senha(dto.getSenha())
+                .urlImg(dto.getUrlImg())
+                .build();
+    }
+}

@@ -32,7 +32,7 @@ public class Usuario {
 
     @NotBlank(message= "O telefone é obrigatorio")
     @Size(min = 11, max=11, message="O telefone deve ter 11 caracteres")
-    @Column(name="TEL_usu", length = 11, nullable = false)
+    @Column(name="NOME_usu", length = 11, nullable = false)
     private @Getter @Setter String telefone;
 
     @NotBlank(message= "O sexo é obrigatorio")
@@ -49,6 +49,10 @@ public class Usuario {
     @Size(min = 8, max=30, message="O senha deve ter entre 8 à 30 caracteres")
     @Column(name="SENHA_usu", length = 30, nullable = false)
     private @Getter @Setter String senha;
+
+    @Size(min = 4, max=100, message="A Url deve ter entre 4 à 100 caracteres")
+    @Column(name="SENHA_usu", length = 100)
+    private @Getter @Setter String urlImg;
 
     //RELACIONAMENTOS
     //1:N Analise
