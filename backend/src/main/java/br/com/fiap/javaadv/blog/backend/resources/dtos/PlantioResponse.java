@@ -18,7 +18,7 @@ public class PlantioResponse {
     private @Getter @Setter String epoca;
     private @Getter @Setter String urlImg;
 
-    public static PlantioResponse ToDto(Plantio plantio){
+    public static PlantioResponse ToDto(final Plantio plantio){
         return PlantioResponse.builder()
                 .id(plantio.getId())
                 .nome(plantio.getNome())

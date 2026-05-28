@@ -13,7 +13,7 @@ public class DefensivoResponse {
     private @Getter @Setter String nome;
     private @Getter @Setter String tipo;
 
-    public static DefensivoResponse toDto(Defensivo defensivo){
+    public static DefensivoResponse toDto(final Defensivo defensivo){
         return DefensivoResponse.builder()
                 .id(defensivo.getId())
                 .nome(defensivo.getNome())

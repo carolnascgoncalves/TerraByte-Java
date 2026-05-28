@@ -17,7 +17,7 @@ public class AnaliseResponse {
     private @Getter @Setter String epoca;
     private @Getter @Setter Date data;
 
-    public static AnaliseResponse toDto(AnalisePlantio analisePlantio){
+    public static AnaliseResponse toDto(final AnalisePlantio analisePlantio){
         return AnaliseResponse.builder()
                 .tempMed(analisePlantio.getTempMed())
                 .umidadeMed(analisePlantio.getUmidadeMed())

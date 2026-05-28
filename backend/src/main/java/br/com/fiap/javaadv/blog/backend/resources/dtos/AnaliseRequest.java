@@ -15,7 +15,7 @@ public class AnaliseRequest {
     private @Getter @Setter String epoca;
     private @Getter @Setter Date data;
 
-    public static AnaliseRequest toDto(AnalisePlantio analisePlantio){
+    public static AnaliseRequest toDto(final AnalisePlantio analisePlantio){
         return AnaliseRequest.builder()
                 .tempMed(analisePlantio.getTempMed())
                 .umidadeMed(analisePlantio.getUmidadeMed())
@@ -25,7 +25,7 @@ public class AnaliseRequest {
                 .build();
     }
 
-    public static AnalisePlantio toEntity(AnaliseRequest dto){
+    public static AnalisePlantio toEntity(final AnaliseRequest dto){
         return AnalisePlantio.builder()
                 .tempMed(dto.getTempMed())
                 .umidadeMed(dto.getUmidadeMed())

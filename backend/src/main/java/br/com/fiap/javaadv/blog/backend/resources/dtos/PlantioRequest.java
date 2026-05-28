@@ -15,7 +15,7 @@ public class PlantioRequest {
     private @Getter @Setter String epoca;
     private @Getter @Setter String urlImg;
 
-    public static PlantioRequest ToDto(Plantio plantio){
+    public static PlantioRequest ToDto(final Plantio plantio){
         return PlantioRequest.builder()
                 .nome(plantio.getNome())
                 .tempMin(plantio.getTempMin())
@@ -26,7 +26,7 @@ public class PlantioRequest {
                 .build();
     }
 
-    public static Plantio ToEntity(PlantioRequest dto){
+    public static Plantio ToEntity(final PlantioRequest dto){
         return Plantio.builder()
                 .nome(dto.getNome())
                 .tempMin(dto.getTempMin())
