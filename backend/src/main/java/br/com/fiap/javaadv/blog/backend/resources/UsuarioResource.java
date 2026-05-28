@@ -9,6 +9,7 @@ import br.com.fiap.javaadv.blog.backend.services.interfaces.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,10 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+
 @RestController
 @RequestMapping("/api/usuario")
 @RequiredArgsConstructor
@@ -28,6 +33,7 @@ public class UsuarioResource {
     private final UsuarioService usuarioService;
 
     @PostMapping
+    @CachePut(value = "usuariosCache", key="#usuarioDTO.id")
     public ResponseEntity<UsuarioRequest> create(@Valid @RequestBody UsuarioRequest request ){
         Usuario entidade = request.toEntity(request);
         Usuario savedEntity = this.usuarioService.create(entidade);
@@ -50,6 +56,7 @@ public class UsuarioResource {
     }
 
     @DeleteMapping("/{id}")
+    @CacheEvict(value="usuariosCache", key="#id")
     public ResponseEntity<Void> deleteById(@PathVariable UUID id){
         if( this.usuarioService.existsById(id)) {
             this.usuarioService.delete(id);
@@ -60,6 +67,7 @@ public class UsuarioResource {
     }
 
     @GetMapping("/listar")
+    @Cacheable( value = "usuariosCache")
     public ResponseEntity<List<UsuarioResponse>> fetchAll(@ParameterObject @PageableDefault(page = 0, size = 10) Pageable pageable){
         return ResponseEntity.ok(
                 this.usuarioService.fetchAll(pageable)
@@ -83,5 +91,21 @@ public class UsuarioResource {
         return usuarioService.fetchByEmail(loginDto.getEmail(), loginDto.getSenha())
                 .map(entidade -> ResponseEntity.ok(UsuarioResponse.toDto(entidade)))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
+    }
+
+    @GetMapping("/test-cache")
+    public ResponseEntity<String> testCache(Pageable pageable){
+
+        long start = System.currentTimeMillis();
+
+        Page<Usuario> profiles = this.usuarioService.fetchAll(pageable);
+
+        long end = System.currentTimeMillis();
+
+        long elapsed = end - start;
+
+        System.out.println("Tempo de execução: " + elapsed + " ms (" + profiles.getTotalElements() + " usuários)");
+
+        return ResponseEntity.ok("Executado em " + elapsed + " ms | " + profiles.getTotalElements() + " usuários encontrados");
     }
 }
