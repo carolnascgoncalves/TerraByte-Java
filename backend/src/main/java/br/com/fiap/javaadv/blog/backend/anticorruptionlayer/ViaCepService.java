@@ -1,0 +1,22 @@
+package br.com.fiap.javaadv.blog.backend.anticorruptionlayer;
+
+import br.com.fiap.javaadv.blog.backend.resources.dtos.ViaCepResponse;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
+
+@Service
+public class ViaCepService {
+    private final RestClient restClient;
+
+    public ViaCepService() {
+        this.restClient = RestClient.create();
+    }
+
+    public ViaCepResponse buscarCep(String cep) {
+        return restClient
+                .get()
+                .uri("https://viacep.com.br/ws/{cep}/json/", cep)
+                .retrieve()
+                .body(ViaCepResponse.class);
+    }
+}

@@ -85,14 +85,6 @@ public class UsuarioResource {
                 .orElseGet( () -> ResponseEntity.notFound().build() );
     }
 
-
-    @PostMapping("/login")
-    public ResponseEntity<UsuarioResponse> fetchByEmail(@RequestBody UsuarioLoginRequest loginDto) {
-        return usuarioService.fetchByEmail(loginDto.getEmail(), loginDto.getSenha())
-                .map(entidade -> ResponseEntity.ok(UsuarioResponse.toDto(entidade)))
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
-    }
-
     @GetMapping("/test-cache")
     public ResponseEntity<String> testCache(Pageable pageable){
 

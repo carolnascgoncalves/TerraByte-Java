@@ -33,15 +33,24 @@ public class SecurityConfig {
                 .headers( headers -> headers
                         .frameOptions(frame -> frame.disable())
                 )
+                /*
                 .authorizeHttpRequests(auth -> auth
                                 .requestMatchers(
                                         "/auth/**",
                                         "/auth/",
+                                        "/api/usuario/login",
+                                        "/api-docs/**",
                                         "/v3/api-docs/**",
                                         "/swagger-ui/**",
+                                        "/swagger-ui.html",
                                         "/console/**"
                                 ).permitAll()
                                 .anyRequest().authenticated()
+                )*/
+
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/**").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())

@@ -3,6 +3,7 @@ package br.com.fiap.javaadv.blog.backend.domainmodel.entities;
 import br.com.fiap.javaadv.blog.backend.domainmodel.enums.SexoEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -26,17 +27,16 @@ public class Usuario {
     @Column(name="NOME_usu", length = 100, nullable = false)
     private @Getter @Setter String nome;
 
-    @NotBlank(message= "A data de nascimento é obrigatoria")
+    @NotNull(message= "A data de nascimento é obrigatoria")
     @Column(name="DATA_NASC_usu", nullable = false)
     private @Getter @Setter Date dataNascimento;
 
     @NotBlank(message= "O telefone é obrigatorio")
     @Size(min = 11, max=11, message="O telefone deve ter 11 caracteres")
-    @Column(name="NOME_usu", length = 11, nullable = false)
+    @Column(name="TEL_usu", length = 11, nullable = false)
     private @Getter @Setter String telefone;
 
-    @NotBlank(message= "O sexo é obrigatorio")
-    @Size(min =1, max=1, message="O sexo deve ter 1 caractere")
+    @NotNull(message= "O sexo é obrigatorio")
     @Column(name="SEXO_usu", length = 1, nullable = false)
     private @Getter @Setter SexoEnum sexo;
 
@@ -46,12 +46,12 @@ public class Usuario {
     private @Getter @Setter String email;
 
     @NotBlank(message= "A senha é obrigatoria")
-    @Size(min = 8, max=30, message="O senha deve ter entre 8 à 30 caracteres")
-    @Column(name="SENHA_usu", length = 30, nullable = false)
+    @Size(min = 8, max=100, message="O senha deve ter entre 8 à 30 caracteres")
+    @Column(name="SENHA_usu", length = 100, nullable = false)
     private @Getter @Setter String senha;
 
     @Size(min = 4, max=100, message="A Url deve ter entre 4 à 100 caracteres")
-    @Column(name="SENHA_usu", length = 100)
+    @Column(name="URL_IMG_usu", length = 100)
     private @Getter @Setter String urlImg;
 
     //RELACIONAMENTOS

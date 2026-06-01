@@ -28,6 +28,9 @@ public class TipoSolo {
     @ManyToMany(mappedBy = "tiposSolo")
     private @Getter @Setter Set<Plantio> plantios;
 
+    @OneToMany(mappedBy = "tipoSolo")
+    private Set<EnderecoPlantio> enderecos;
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

@@ -1,9 +1,11 @@
 package br.com.fiap.javaadv.blog.backend.services;
 
+import br.com.fiap.javaadv.blog.backend.anticorruptionlayer.ViaCepService;
 import br.com.fiap.javaadv.blog.backend.datasource.repositories.EnderecoPlantioRepository;
 import br.com.fiap.javaadv.blog.backend.datasource.repositories.UsuarioRepository;
 import br.com.fiap.javaadv.blog.backend.domainmodel.entities.EnderecoPlantio;
 import br.com.fiap.javaadv.blog.backend.domainmodel.entities.Usuario;
+import br.com.fiap.javaadv.blog.backend.resources.dtos.ViaCepResponse;
 import br.com.fiap.javaadv.blog.backend.services.interfaces.EnderecoPlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,10 +22,21 @@ import java.util.UUID;
 @Transactional( propagation = Propagation.REQUIRED)
 public class EnderecoPlanServiceImp implements EnderecoPlanService {
     private final EnderecoPlantioRepository enderecoRepository;
+    private final ViaCepService viaCepService;
 
     @Override
     public EnderecoPlantio create(EnderecoPlantio end){
-        return this.enderecoRepository.save(end);
+        ViaCepResponse viaCep = viaCepService.buscarCep(end.getCep());
+
+        if (viaCep == null) {
+            throw new RuntimeException("CEP não encontrado.");
+        }
+
+        end.setLogradouro(viaCep.getLogradouro());
+        end.setCidade(viaCep.getLocalidade());
+        end.setEstado(viaCep.getUf());
+
+        return enderecoRepository.save(end);
     }
 
 

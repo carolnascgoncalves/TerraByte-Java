@@ -23,7 +23,7 @@ public class EnderecoPlantio {
 
     @NotBlank(message= "O nome é obrigatorio")
     @Size(min = 2, max=100, message="O nome deve ter entre 2 à 100 caracteres")
-    @Column(name="CEP_end", length = 100, nullable = false)
+    @Column(name="NOME_end", length = 100, nullable = false)
     private @Getter @Setter String nome;
 
     @NotBlank(message= "O CEP é obrigatorio")
@@ -43,6 +43,10 @@ public class EnderecoPlantio {
     @Column(name="ESTADO_end", length = 100)
     private @Getter @Setter String estado;
 
+    @Size(min = 2, max=100, message="O bairro deve ter entre 2 à 100 caracteres")
+    @Column(name="BAIRRO_end", length = 100)
+    private @Getter @Setter String bairro;
+
     @Column(name="LAT_end")
     private @Getter @Setter double latitude;
 
@@ -50,12 +54,13 @@ public class EnderecoPlantio {
     private @Getter @Setter double longitude;
 
     //RELACIONAMENTOS
-    //1:N Tipo solo
-    @OneToMany(mappedBy = "enderecos", fetch = FetchType.LAZY)
-    private @Getter @Setter Set<TipoSolo> tiposSolo;
+    //N:1 Tipo solo
+    @ManyToOne
+    @JoinColumn(name = "ID_SOLO_FK")
+    private TipoSolo tipoSolo;
 
     //1:N Analise
-    @OneToMany(mappedBy = "enderecos", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "enderecoPlantio", fetch = FetchType.LAZY)
     private @Getter @Setter Set<AnalisePlantio> analises;
 
 

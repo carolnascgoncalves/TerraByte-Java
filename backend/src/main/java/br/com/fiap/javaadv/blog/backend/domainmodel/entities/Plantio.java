@@ -43,7 +43,7 @@ public class Plantio {
     private @Getter @Setter String epoca;
 
     @Size(min = 4, max=100, message="A Url deve ter entre 4 à 100 caracteres")
-    @Column(name="SENHA_usu", length = 100)
+    @Column(name="URL_IMG_plan", length = 100)
     private @Getter @Setter String urlImg;
 
     //RELACIONAMENTOS
@@ -66,7 +66,7 @@ public class Plantio {
     private @Getter @Setter Set<TipoSolo> tiposSolo;
 
     //1:N Analise
-    @OneToMany(mappedBy = "plantios", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "plantio", fetch = FetchType.LAZY)
     private @Getter @Setter Set<AnalisePlantio> analisesPlantio;
 
 

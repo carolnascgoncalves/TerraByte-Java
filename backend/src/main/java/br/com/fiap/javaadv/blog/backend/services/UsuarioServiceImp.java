@@ -1,10 +1,14 @@
 package br.com.fiap.javaadv.blog.backend.services;
 
 import br.com.fiap.javaadv.blog.backend.datasource.repositories.UsuarioRepository;
+import br.com.fiap.javaadv.blog.backend.domainmodel.entities.AuthUser;
 import br.com.fiap.javaadv.blog.backend.domainmodel.entities.Usuario;
 import br.com.fiap.javaadv.blog.backend.services.interfaces.UsuarioService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +22,7 @@ import java.util.UUID;
 @Transactional(propagation = Propagation.REQUIRED)
 public class UsuarioServiceImp implements UsuarioService {
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Usuario create(Usuario usuario){
@@ -64,11 +69,21 @@ public class UsuarioServiceImp implements UsuarioService {
         return this.usuarioRepository.findAll(pageable);
     }
 
+    /*
     @Override
     public Optional<Usuario> fetchByEmail(String email, String senha){
         Optional<Usuario> usu = usuarioRepository.findByEmail(email);
-        if(usu.isPresent() && usu.get().getSenha().equals(senha)){return usu;}
+        if (usu.isPresent() && passwordEncoder.matches(senha, usu.get().getSenha())) {return usu;}
 
         return Optional.empty();
+    }
+    */
+
+    @Override
+    public UserDetails fetchByEmail(String username) throws UsernameNotFoundException {
+        return this.usuarioRepository
+                .findByEmail(username)
+                .map(AuthUser::new)
+                .orElseThrow(() -> new UsernameNotFoundException("Username not found( email )" + username));
     }
 }

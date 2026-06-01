@@ -3,6 +3,7 @@ package br.com.fiap.javaadv.blog.backend.services.interfaces;
 import br.com.fiap.javaadv.blog.backend.domainmodel.entities.Usuario;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,5 +22,7 @@ public interface UsuarioService {
 
     boolean existsById(UUID id);
 
-    Optional<Usuario> fetchByEmail(String email, String senha);
+    //Optional<Usuario> fetchByEmail(String email, String senha);
+
+    UserDetails fetchByEmail(String email);
 }
