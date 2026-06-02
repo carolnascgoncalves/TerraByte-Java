@@ -1,6 +1,7 @@
 package br.com.fiap.javaadv.blog.backend.services.interfaces;
 
 import br.com.fiap.javaadv.blog.backend.domainmodel.entities.EnderecoPlantio;
+import br.com.fiap.javaadv.blog.backend.resources.dtos.SoilGridsResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

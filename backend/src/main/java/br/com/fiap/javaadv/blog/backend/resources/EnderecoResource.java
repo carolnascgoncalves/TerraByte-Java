@@ -25,7 +25,7 @@ public class EnderecoResource {
     private final EnderecoPlanService enderecoPlanService;
 
     @PostMapping
-    public ResponseEntity<EnderecoRequest> create(@Valid @RequestBody EnderecoRequest request ){
+    public ResponseEntity<EnderecoRequest> create(@Valid @RequestBody EnderecoRequest request){
         EnderecoPlantio entidade = request.toEntity(request);
         EnderecoPlantio savedEntity = this.enderecoPlanService.create(entidade);
 

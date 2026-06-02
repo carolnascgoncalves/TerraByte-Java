@@ -1,12 +1,10 @@
 package br.com.fiap.javaadv.blog.backend.domainmodel.entities;
 
-import br.com.fiap.javaadv.blog.backend.domainmodel.enums.SexoEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.sql.Date;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -57,7 +55,7 @@ public class EnderecoPlantio {
     //N:1 Tipo solo
     @ManyToOne
     @JoinColumn(name = "ID_SOLO_FK")
-    private TipoSolo tipoSolo;
+    private @Getter @Setter TipoSolo tipoSolo;
 
     //1:N Analise
     @OneToMany(mappedBy = "enderecoPlantio", fetch = FetchType.LAZY)

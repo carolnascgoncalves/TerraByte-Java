@@ -1,10 +1,19 @@
 package br.com.fiap.javaadv.blog.backend.services;
 
+import br.com.fiap.javaadv.blog.backend.anticorruptionlayer.SoilGridsServiceImp;
 import br.com.fiap.javaadv.blog.backend.anticorruptionlayer.ViaCepService;
+import br.com.fiap.javaadv.blog.backend.anticorruptionlayer.interfaces.GeocodingService;
+import br.com.fiap.javaadv.blog.backend.anticorruptionlayer.interfaces.SoilGridsService;
 import br.com.fiap.javaadv.blog.backend.datasource.repositories.EnderecoPlantioRepository;
-import br.com.fiap.javaadv.blog.backend.datasource.repositories.UsuarioRepository;
+import br.com.fiap.javaadv.blog.backend.datasource.repositories.TipoSoloRepository;
 import br.com.fiap.javaadv.blog.backend.domainmodel.entities.EnderecoPlantio;
-import br.com.fiap.javaadv.blog.backend.domainmodel.entities.Usuario;
+import br.com.fiap.javaadv.blog.backend.domainmodel.entities.TipoSolo;
+import br.com.fiap.javaadv.blog.backend.domainmodel.enums.TipoSoloEnum;
+import br.com.fiap.javaadv.blog.backend.domainmodel.services.SoilValues;
+import br.com.fiap.javaadv.blog.backend.domainmodel.services.TipoSoloClassifier;
+import br.com.fiap.javaadv.blog.backend.resources.dtos.CoordenadaResponse;
+import br.com.fiap.javaadv.blog.backend.resources.dtos.SoilGridsResponse;
+import br.com.fiap.javaadv.blog.backend.resources.dtos.SoilResponse;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.ViaCepResponse;
 import br.com.fiap.javaadv.blog.backend.services.interfaces.EnderecoPlanService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,10 +33,16 @@ import java.util.UUID;
 public class EnderecoPlanServiceImp implements EnderecoPlanService {
     private final EnderecoPlantioRepository enderecoRepository;
     private final ViaCepService viaCepService;
+    private final GeocodingService geocodingService;
+    private final SoilGridsService soilService;
+    private final TipoSoloClassifier classifier;
+    private final TipoSoloRepository tipoSoloRepository;
+
 
     @Override
     public EnderecoPlantio create(EnderecoPlantio end){
         ViaCepResponse viaCep = viaCepService.buscarCep(end.getCep());
+        CoordenadaResponse coordenada = geocodingService.buscarCoordenadas(viaCep.getLocalidade());
 
         if (viaCep == null) {
             throw new RuntimeException("CEP não encontrado.");
@@ -36,6 +52,14 @@ public class EnderecoPlanServiceImp implements EnderecoPlanService {
         end.setCidade(viaCep.getLocalidade());
         end.setEstado(viaCep.getUf());
 
+        end.setLatitude(coordenada.getLatitude());
+        end.setLongitude(coordenada.getLongitude());
+
+        SoilValues values = soilService.buscarESumarizar(coordenada.getLatitude(), coordenada.getLongitude());
+        TipoSoloEnum tipo = classifier.classificar(values.getClay(), values.getSand(), values.getSilt());
+        TipoSolo tipoSolo = tipoSoloRepository.findByNome(tipo.name()).orElseThrow();
+
+        end.setTipoSolo(tipoSolo);
         return enderecoRepository.save(end);
     }
 
