@@ -13,11 +13,13 @@ public class GeocodingServiceImp implements GeocodingService {
     private final RestTemplate restTemplate;
 
     @Override
-    public CoordenadaResponse buscarCoordenadas(String cidade) {
+    public CoordenadaResponse buscarCoordenadas(String cidade, String estado) {
 
         String url =
                 "https://geocoding-api.open-meteo.com/v1/search?name="
                         + cidade
+                        + "&admin1="
+                        + estado
                         + "&count=1&language=pt&format=json";
 
         OpenMeteoResponse response =

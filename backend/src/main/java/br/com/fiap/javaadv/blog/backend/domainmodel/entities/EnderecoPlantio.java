@@ -19,19 +19,14 @@ public class EnderecoPlantio {
     @Id
     private @Getter @Setter UUID id;
 
-    @NotBlank(message= "O nome é obrigatorio")
-    @Size(min = 2, max=100, message="O nome deve ter entre 2 à 100 caracteres")
-    @Column(name="NOME_end", length = 100, nullable = false)
-    private @Getter @Setter String nome;
+    @Size(min = 2, max=100, message="O logradouro deve ter entre 2 à 100 caracteres")
+    @Column(name="LOGRAD_end", length = 100)
+    private @Getter @Setter String logradouro;
 
     @NotBlank(message= "O CEP é obrigatorio")
     @Size(min = 8, max=9, message="O CEP deve ter entre 8 à 9 caracteres")
     @Column(name="CEP_end", length = 10, nullable = false)
     private @Getter @Setter String cep;
-
-    @Size(min = 2, max=100, message="O logradouro deve ter entre 2 à 100 caracteres")
-    @Column(name="LOGRAD_end", length = 100)
-    private @Getter @Setter String logradouro;
 
     @Size(min = 2, max=100, message="O cidade deve ter entre 2 à 100 caracteres")
     @Column(name="CIDADE_end", length = 100)
@@ -50,6 +45,18 @@ public class EnderecoPlantio {
 
     @Column(name="LONG_end")
     private @Getter @Setter double longitude;
+
+    @Column(name="ARGILA_end", length = 100)
+    private @Getter @Setter Double argila;
+
+    @Column(name="AREIA_end", length = 100)
+    private @Getter @Setter Double areia;
+
+    @Column(name="SILTO_end", length = 100)
+    private @Getter @Setter Double silto;
+
+    @Column(name="RAIO_end", length = 100)
+    private @Getter @Setter Double raioSoloKm;
 
     //RELACIONAMENTOS
     //N:1 Tipo solo

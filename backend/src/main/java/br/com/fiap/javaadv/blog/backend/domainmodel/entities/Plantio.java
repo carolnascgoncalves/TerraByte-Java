@@ -16,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @ToString
 @Builder
-public class Plantio {
+public class   Plantio {
     @Id
     private @Getter @Setter UUID id;
 

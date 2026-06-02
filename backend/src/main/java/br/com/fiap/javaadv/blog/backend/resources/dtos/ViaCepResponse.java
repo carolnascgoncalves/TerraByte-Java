@@ -11,5 +11,5 @@ public class ViaCepResponse {
     private @Getter @Setter String complemento;
     private @Getter @Setter String bairro;
     private @Getter @Setter String localidade;
-    private @Getter @Setter String uf;
+    private @Getter @Setter String estado;
 }

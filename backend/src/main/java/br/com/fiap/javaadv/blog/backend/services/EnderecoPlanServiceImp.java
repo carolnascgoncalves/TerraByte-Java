@@ -1,7 +1,6 @@
 package br.com.fiap.javaadv.blog.backend.services;
 
-import br.com.fiap.javaadv.blog.backend.anticorruptionlayer.SoilGridsServiceImp;
-import br.com.fiap.javaadv.blog.backend.anticorruptionlayer.ViaCepService;
+import br.com.fiap.javaadv.blog.backend.anticorruptionlayer.ViaCepServiceImp;
 import br.com.fiap.javaadv.blog.backend.anticorruptionlayer.interfaces.GeocodingService;
 import br.com.fiap.javaadv.blog.backend.anticorruptionlayer.interfaces.SoilGridsService;
 import br.com.fiap.javaadv.blog.backend.datasource.repositories.EnderecoPlantioRepository;
@@ -9,11 +8,8 @@ import br.com.fiap.javaadv.blog.backend.datasource.repositories.TipoSoloReposito
 import br.com.fiap.javaadv.blog.backend.domainmodel.entities.EnderecoPlantio;
 import br.com.fiap.javaadv.blog.backend.domainmodel.entities.TipoSolo;
 import br.com.fiap.javaadv.blog.backend.domainmodel.enums.TipoSoloEnum;
-import br.com.fiap.javaadv.blog.backend.domainmodel.services.SoilValues;
-import br.com.fiap.javaadv.blog.backend.domainmodel.services.TipoSoloClassifier;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.CoordenadaResponse;
-import br.com.fiap.javaadv.blog.backend.resources.dtos.SoilGridsResponse;
-import br.com.fiap.javaadv.blog.backend.resources.dtos.SoilResponse;
+import br.com.fiap.javaadv.blog.backend.resources.dtos.SoilGridsResultado;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.ViaCepResponse;
 import br.com.fiap.javaadv.blog.backend.services.interfaces.EnderecoPlanService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -32,34 +27,46 @@ import java.util.UUID;
 @Transactional( propagation = Propagation.REQUIRED)
 public class EnderecoPlanServiceImp implements EnderecoPlanService {
     private final EnderecoPlantioRepository enderecoRepository;
-    private final ViaCepService viaCepService;
+    private final ViaCepServiceImp viaCepServiceImp;
     private final GeocodingService geocodingService;
     private final SoilGridsService soilService;
-    private final TipoSoloClassifier classifier;
     private final TipoSoloRepository tipoSoloRepository;
 
 
     @Override
     public EnderecoPlantio create(EnderecoPlantio end){
-        ViaCepResponse viaCep = viaCepService.buscarCep(end.getCep());
-        CoordenadaResponse coordenada = geocodingService.buscarCoordenadas(viaCep.getLocalidade());
+        ViaCepResponse viaCep = viaCepServiceImp.buscarCep(end.getCep());
+        CoordenadaResponse coordenada = geocodingService.buscarCoordenadas(viaCep.getLocalidade(), viaCep.getEstado());
 
-        if (viaCep == null) {
+        double latitude = coordenada.getLatitude();
+        double longitude = coordenada.getLongitude();
+
+        if (viaCep.getLogradouro() == null) {
             throw new RuntimeException("CEP não encontrado.");
         }
 
         end.setLogradouro(viaCep.getLogradouro());
         end.setCidade(viaCep.getLocalidade());
-        end.setEstado(viaCep.getUf());
+        end.setEstado(viaCep.getEstado());
 
-        end.setLatitude(coordenada.getLatitude());
-        end.setLongitude(coordenada.getLongitude());
+        end.setLatitude(latitude);
+        end.setLongitude(longitude);
 
-        SoilValues values = soilService.buscarESumarizar(coordenada.getLatitude(), coordenada.getLongitude());
-        TipoSoloEnum tipo = classifier.classificar(values.getClay(), values.getSand(), values.getSilt());
-        TipoSolo tipoSolo = tipoSoloRepository.findByNome(tipo.name()).orElseThrow();
+        SoilGridsResultado resultado = soilService.buscarTipoSolo(latitude, longitude);
+
+        TipoSoloEnum tpSoloclassific = resultado.getTipoSolo();
+
+        end.setRaioSoloKm(resultado.getRaioKm());
+
+        end.setArgila(resultado.getSoilValues().getClay());
+        end.setAreia(resultado.getSoilValues().getSand());
+        end.setSilto(resultado.getSoilValues().getSilt());
+
+        TipoSolo tipoSolo = tipoSoloRepository.findByNome(tpSoloclassific.name()).orElseThrow(() ->
+                                new RuntimeException("Tipo de solo não encontrado: " + tpSoloclassific.name()));
 
         end.setTipoSolo(tipoSolo);
+
         return enderecoRepository.save(end);
     }
 

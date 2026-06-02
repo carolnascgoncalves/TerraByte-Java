@@ -1,14 +1,15 @@
 package br.com.fiap.javaadv.blog.backend.anticorruptionlayer;
 
+import br.com.fiap.javaadv.blog.backend.anticorruptionlayer.interfaces.ViaCepService;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.ViaCepResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 @Service
-public class ViaCepService {
+public class ViaCepServiceImp implements ViaCepService {
     private final RestClient restClient;
 
-    public ViaCepService() {
+    public ViaCepServiceImp() {
         this.restClient = RestClient.create();
     }
 

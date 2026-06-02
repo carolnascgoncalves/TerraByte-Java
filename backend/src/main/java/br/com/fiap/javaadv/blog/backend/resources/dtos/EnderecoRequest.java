@@ -7,19 +7,19 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class EnderecoRequest {
-    private @Getter @Setter String nome;
+    private @Getter @Setter String logradouro;
     private @Getter @Setter String cep;
 
     public static EnderecoRequest toDto(final EnderecoPlantio enderecoPlantio){
         return EnderecoRequest.builder()
-                .nome(enderecoPlantio.getNome())
+                .logradouro(enderecoPlantio.getLogradouro())
                 .cep(enderecoPlantio.getCep())
                 .build();
     }
 
     public static EnderecoPlantio toEntity(final EnderecoRequest dto){
         return EnderecoPlantio.builder()
-                .nome(dto.getNome())
+                .logradouro(dto.getLogradouro())
                 .cep(dto.getCep())
                 .build();
     }
