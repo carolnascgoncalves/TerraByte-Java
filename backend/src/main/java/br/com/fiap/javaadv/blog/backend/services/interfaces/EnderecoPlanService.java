@@ -19,5 +19,7 @@ public interface EnderecoPlanService {
 
     boolean existsById(UUID id);
 
+    boolean existsByName(String nome);
+
     void delete(UUID id);
 }

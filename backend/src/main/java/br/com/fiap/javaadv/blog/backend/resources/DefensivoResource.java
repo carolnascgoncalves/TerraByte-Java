@@ -24,34 +24,6 @@ import java.util.stream.Collectors;
 public class DefensivoResource {
     private final DefensivoService defensivoService;
 
-    /*
-    @PostMapping
-    public ResponseEntity<DefensivoRequest> create(@Valid @RequestBody DefensivoRequest request ){
-        Defensivo entidade = request.toEntity(request);
-        Defensivo savedEntity = this.defensivoService.create(entidade);
-
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(savedEntity.getId())
-                .toUri();
-
-        return ResponseEntity.created(location)
-                .body(request.toDto(savedEntity));
-    }
-     */
-
-    /*
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable UUID id){
-        if( this.defensivoService.existsById(id)) {
-            this.defensivoService.delete(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
-
-    }
-     */
-
     @GetMapping("/listar")
     public ResponseEntity<List<DefensivoResponse>> fetchAll(@ParameterObject @PageableDefault(page = 0, size = 10) Pageable pageable){
         return ResponseEntity.ok(
@@ -68,5 +40,18 @@ public class DefensivoResource {
         return this.defensivoService.fetchById(id)
                 .map(entidade -> ResponseEntity.ok(DefensivoResponse.toDto(entidade)))
                 .orElseGet( () -> ResponseEntity.notFound().build() );
+    }
+
+    @GetMapping("/tipo/{nomeTipo}")
+    public ResponseEntity<List<DefensivoResponse>> fetchByTipo(@PathVariable String nomeTipo,
+            @ParameterObject @PageableDefault(page = 0, size = 10) Pageable pageable){
+
+        return ResponseEntity.ok(
+                defensivoService.fetchByTipo(nomeTipo.toUpperCase(), pageable)
+                        .getContent()
+                        .stream()
+                        .map(DefensivoResponse::toDto)
+                        .toList()
+        );
     }
 }

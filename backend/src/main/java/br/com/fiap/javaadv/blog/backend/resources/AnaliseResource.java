@@ -28,7 +28,9 @@ public class AnaliseResource {
     private final AnaliseService analiseService;
 
     @PostMapping
-    public ResponseEntity<AnaliseRequest> create(@Valid @RequestBody AnaliseRequest request ){
+    public ResponseEntity<AnaliseRequest> create(@RequestParam UUID idEndereco, @RequestParam UUID idPlantio){
+        var request = AnaliseRequest.builder().idEndereco(idEndereco).idPlantio(idPlantio).build();
+
         AnalisePlantio entidade = request.toEntity(request);
         AnalisePlantio savedEntity = this.analiseService.create(entidade);
 
@@ -39,16 +41,6 @@ public class AnaliseResource {
 
         return ResponseEntity.created(location)
                 .body(request.toDto(savedEntity));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable UUID id){
-        if( this.analiseService.existsById(id)) {
-            this.analiseService.delete(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
-
     }
 
     @GetMapping("/listar")

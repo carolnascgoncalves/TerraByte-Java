@@ -38,7 +38,7 @@ public class AnalisePlantio {
     @Column(name="NVL_risc_ana")
     private @Getter @Setter String nivelRisco;
 
-    @Column(name="REC_ana")
+    @Column(name="REC_ana",length = 1000)
     private @Getter @Setter String recomendacao;
 
 

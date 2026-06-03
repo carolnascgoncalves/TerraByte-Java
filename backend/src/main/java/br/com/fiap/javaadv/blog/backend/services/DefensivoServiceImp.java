@@ -46,4 +46,10 @@ public class DefensivoServiceImp implements DefensivoService {
     public Page<Defensivo> fetchAll(Pageable pageable){
         return this.defensivoRepository.findAll(pageable);
     }
+
+    @Override
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public Page<Defensivo> fetchByTipo(String tipo, Pageable pageable){
+        return defensivoRepository.findByTipo(tipo, pageable);
+    }
 }

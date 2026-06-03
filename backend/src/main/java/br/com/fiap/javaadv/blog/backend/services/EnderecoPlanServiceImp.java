@@ -101,7 +101,12 @@ public class EnderecoPlanServiceImp implements EnderecoPlanService {
         return this.enderecoRepository.existsById(id);
     }
 
+    @Override
+    public boolean existsByName(String nome){ return this.enderecoRepository.existsByNome(nome);}
+
     public Page<EnderecoPlantio> fetchAll(Pageable pageable){
         return this.enderecoRepository.findAll(pageable);
     }
+
+
 }

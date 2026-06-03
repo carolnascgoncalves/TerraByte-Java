@@ -17,4 +17,6 @@ public interface DefensivoService {
     boolean existsById(UUID id);
 
     void delete(UUID id);
+
+    Page<Defensivo> fetchByTipo(String tipo, Pageable pageable);
 }

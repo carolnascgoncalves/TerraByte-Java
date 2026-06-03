@@ -26,35 +26,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PlantioResource {
     private final PlantioService plantioService;
-    /*
-    @PostMapping
-    public ResponseEntity<PlantioRequest> create(@Valid @RequestBody PlantioRequest request ){
-        Plantio entidade = request.toEntity(request);
-        Plantio savedEntity = this.plantioService.create(entidade);
-
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(savedEntity.getId())
-                .toUri();
-
-        return ResponseEntity.created(location)
-                .body(request.toDto(savedEntity));
-    }
-
-
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable UUID id){
-        if( this.plantioService.existsById(id)) {
-            this.plantioService.delete(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
-
-    }
-
-     */
-
     @GetMapping("/listar")
     public ResponseEntity<List<PlantioResponse>> fetchAll(@ParameterObject @PageableDefault(page = 0, size = 10) Pageable pageable){
         return ResponseEntity.ok(
@@ -71,5 +42,32 @@ public class PlantioResource {
         return this.plantioService.fetchById(id)
                 .map(entidade -> ResponseEntity.ok(PlantioResponse.toDto(entidade)))
                 .orElseGet( () -> ResponseEntity.notFound().build() );
+    }
+
+    @GetMapping("/solo/{idTipoSolo}")
+    public ResponseEntity<List<PlantioResponse>> fetchByTipoSolo(@PathVariable UUID idTipoSolo,
+                                                                 @ParameterObject @PageableDefault(page = 0, size = 10) Pageable pageable){
+        return ResponseEntity.ok(
+                plantioService.fetchByTipoSolo(idTipoSolo, pageable)
+                        .getContent()
+                        .stream()
+                        .map(PlantioResponse::toDto)
+                        .toList()
+        );
+    }
+
+    @GetMapping("/defensivo/{idDefensivo}")
+    public ResponseEntity<List<PlantioResponse>> fetchByDefensivo(@PathVariable UUID idDefensivo,
+            @ParameterObject
+            @PageableDefault(page = 0, size = 10)
+            Pageable pageable){
+
+        return ResponseEntity.ok(
+                plantioService.fetchByDefensivo(idDefensivo, pageable)
+                        .getContent()
+                        .stream()
+                        .map(PlantioResponse::toDto)
+                        .toList()
+        );
     }
 }

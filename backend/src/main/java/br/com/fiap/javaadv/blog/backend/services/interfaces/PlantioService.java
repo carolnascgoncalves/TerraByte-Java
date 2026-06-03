@@ -17,4 +17,8 @@ public interface PlantioService {
     boolean existsById(UUID id);
 
     void delete(UUID id);
+
+    Page<Plantio> fetchByTipoSolo(UUID tipoSoloId, Pageable pageable);
+
+    Page<Plantio> fetchByDefensivo(UUID defensivoId, Pageable pageable);
 }

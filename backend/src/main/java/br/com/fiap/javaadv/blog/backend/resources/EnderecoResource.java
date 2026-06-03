@@ -26,6 +26,8 @@ public class EnderecoResource {
 
     @PostMapping
     public ResponseEntity<EnderecoRequest> create(@Valid @RequestBody EnderecoRequest request){
+        if(this.enderecoPlanService.existsByName(request.getNome())) throw new RuntimeException("Nome já registrado!");
+
         EnderecoPlantio entidade = request.toEntity(request);
         EnderecoPlantio savedEntity = this.enderecoPlanService.create(entidade);
 

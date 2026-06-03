@@ -32,14 +32,6 @@ public class DataLoader {
             AnalisePlantioRepository analisePlantioRep
     ) {
         return args -> {
-
-
-            Defensivo def1 = defensivoRep.save(Defensivo.builder()
-                            .id(UUID.fromString("90c87b51-422c-4a4e-83ca-eb73fdc1932a"))
-                            .nome("def Teste")
-                            .tipo("tp teste")
-                            .build());
-
             Usuario user1 = usuarioRep.save(Usuario.builder()
                             .id(UUID.fromString("978c415d-7c8b-4b37-af9a-d54fcb1bda46"))
                             .nome("Nome teste")
@@ -121,6 +113,69 @@ public class DataLoader {
                     .nome("DESCONHECIDO")
                     .build());
 
+
+            Defensivo glifosato = defensivoRep.save(Defensivo.builder()
+                    .id(UUID.fromString("f3d9d6d6-49f2-4e8f-b7d6-3b94a6b7f001"))
+                    .nome("Glifosato")
+                    .tipo("HERBICIDA")
+                    .build());
+
+            Defensivo atrazina = defensivoRep.save(Defensivo.builder()
+                    .id(UUID.fromString("c0e4e6b1-6d27-49f8-97f0-8d2d2d3f0002"))
+                    .nome("Atrazina")
+                    .tipo("HERBICIDA")
+                    .build());
+
+            Defensivo mancozebe = defensivoRep.save(Defensivo.builder()
+                    .id(UUID.fromString("d9b84f71-f52f-43df-a5e7-1c63e0cf0003"))
+                    .nome("Mancozebe")
+                    .tipo("FUNGICIDA")
+                    .build());
+
+            Defensivo clorpirifos = defensivoRep.save(Defensivo.builder()
+                    .id(UUID.fromString("7f0f35a4-4d1c-45f5-a2f8-3e9f1ab00004"))
+                    .nome("Clorpirifós")
+                    .tipo("INSETICIDA")
+                    .build());
+
+            Defensivo paraquate = defensivoRep.save(Defensivo.builder()
+                    .id(UUID.fromString("aa17eb96-8b6d-45c8-8fd2-54bfe7d00005"))
+                    .nome("Paraquate")
+                    .tipo("HERBICIDA")
+                    .build());
+
+            Defensivo imidacloprido = defensivoRep.save(Defensivo.builder()
+                    .id(UUID.fromString("eb69a71c-c2b4-4d92-aac5-58db4e800006"))
+                    .nome("Imidacloprido")
+                    .tipo("INSETICIDA")
+                    .build());
+
+            Defensivo tebuconazol = defensivoRep.save(Defensivo.builder()
+                    .id(UUID.fromString("f84656e1-1d42-46e8-a1f6-7bc5ec500007"))
+                    .nome("Tebuconazol")
+                    .tipo("FUNGICIDA")
+                    .build());
+
+            Defensivo fipronil = defensivoRep.save(Defensivo.builder()
+                    .id(UUID.fromString("2c57a08a-0a0f-4a24-9d65-89b6cf900008"))
+                    .nome("Fipronil")
+                    .tipo("INSETICIDA")
+                    .build());
+
+            Defensivo doisQuatroD = defensivoRep.save(Defensivo.builder()
+                    .id(UUID.fromString("9f4f49df-c39d-4d8d-9237-7d7e9b300009"))
+                    .nome("2,4-D")
+                    .tipo("HERBICIDA")
+                    .build());
+
+            Defensivo azoxistrobina = defensivoRep.save(Defensivo.builder()
+                    .id(UUID.fromString("3b4f6aaf-f0f5-4f3c-bf3e-b6fca8100010"))
+                    .nome("Azoxistrobina")
+                    .tipo("FUNGICIDA")
+                    .build());
+
+
+
             Plantio mandioca = plantioRep.save(Plantio.builder()
                     .id(UUID.fromString("4d9f5671-8371-4a29-8342-b292ffe2b939"))
                     .nome("Mandioca")
@@ -130,6 +185,7 @@ public class DataLoader {
                     .mesesIdeais(Set.of(Month.SEPTEMBER, Month.OCTOBER, Month.NOVEMBER))
                     .urlImg("https://exemplo.com/mandioca.png")
                     .tiposSolo(Set.of(tp1))
+                    .defensivos(Set.of(glifosato, mancozebe))
                     .build());
 
             Plantio amendoim = plantioRep.save(Plantio.builder()
@@ -141,6 +197,7 @@ public class DataLoader {
                     .mesesIdeais(Set.of(Month.SEPTEMBER, Month.OCTOBER))
                     .urlImg("https://exemplo.com/amendoim.png")
                     .tiposSolo(Set.of(tp1))
+                    .defensivos(Set.of(atrazina, tebuconazol))
                     .build());
 
             Plantio melancia = plantioRep.save(Plantio.builder()
@@ -152,6 +209,7 @@ public class DataLoader {
                     .mesesIdeais(Set.of(Month.SEPTEMBER, Month.OCTOBER, Month.NOVEMBER))
                     .urlImg("https://exemplo.com/melancia.png")
                     .tiposSolo(Set.of(tp2))
+                    .defensivos(Set.of(mancozebe, azoxistrobina))
                     .build());
 
             Plantio milho_verde = plantioRep.save(Plantio.builder()
@@ -163,6 +221,7 @@ public class DataLoader {
                     .mesesIdeais(Set.of(Month.AUGUST, Month.SEPTEMBER, Month.OCTOBER))
                     .urlImg("https://exemplo.com/milho_verde.png")
                     .tiposSolo(Set.of(tp2))
+                    .defensivos(Set.of(atrazina, clorpirifos))
                     .build());
 
             Plantio feijao = plantioRep.save(Plantio.builder()
@@ -174,6 +233,7 @@ public class DataLoader {
                     .mesesIdeais(Set.of(Month.OCTOBER, Month.NOVEMBER))
                     .urlImg("https://exemplo.com/feijao.png")
                     .tiposSolo(Set.of(tp3))
+                    .defensivos(Set.of(mancozebe, imidacloprido))
                     .build());
 
             Plantio sorgo = plantioRep.save(Plantio.builder()
@@ -185,6 +245,7 @@ public class DataLoader {
                     .mesesIdeais(Set.of(Month.SEPTEMBER, Month.OCTOBER))
                     .urlImg("https://exemplo.com/sorgo.png")
                     .tiposSolo(Set.of(tp3))
+                    .defensivos(Set.of(glifosato, atrazina))
                     .build());
 
             Plantio cafe = plantioRep.save(Plantio.builder()
@@ -196,6 +257,7 @@ public class DataLoader {
                     .mesesIdeais(Set.of(Month.MARCH, Month.APRIL, Month.MAY))
                     .urlImg("https://exemplo.com/cafe.png")
                     .tiposSolo(Set.of(tp4))
+                    .defensivos(Set.of(tebuconazol, azoxistrobina))
                     .build());
 
             Plantio cana_acucar = plantioRep.save(Plantio.builder()
@@ -207,6 +269,7 @@ public class DataLoader {
                     .mesesIdeais(Set.of(Month.SEPTEMBER, Month.OCTOBER))
                     .urlImg("https://exemplo.com/cana.png")
                     .tiposSolo(Set.of(tp4))
+                    .defensivos(Set.of(glifosato, paraquate))
                     .build());
 
             Plantio alface = plantioRep.save(Plantio.builder()
@@ -218,6 +281,7 @@ public class DataLoader {
                     .mesesIdeais(Set.of(Month.MARCH, Month.APRIL, Month.MAY))
                     .urlImg("https://exemplo.com/alface.png")
                     .tiposSolo(Set.of(tp5))
+                    .defensivos(Set.of(imidacloprido, fipronil))
                     .build());
 
             Plantio tomate = plantioRep.save(Plantio.builder()
@@ -229,6 +293,7 @@ public class DataLoader {
                     .mesesIdeais(Set.of(Month.AUGUST, Month.SEPTEMBER))
                     .urlImg("https://exemplo.com/tomate.png")
                     .tiposSolo(Set.of(tp5))
+                    .defensivos(Set.of(mancozebe, azoxistrobina))
                     .build());
 
             Plantio trigo = plantioRep.save(Plantio.builder()
@@ -240,6 +305,7 @@ public class DataLoader {
                     .mesesIdeais(Set.of(Month.MAY, Month.JUNE))
                     .urlImg("https://exemplo.com/trigo.png")
                     .tiposSolo(Set.of(tp6))
+                    .defensivos(Set.of(tebuconazol, atrazina))
                     .build());
 
             Plantio cevada = plantioRep.save(Plantio.builder()
@@ -251,6 +317,7 @@ public class DataLoader {
                     .mesesIdeais(Set.of(Month.MAY, Month.JUNE))
                     .urlImg("https://exemplo.com/cevada.png")
                     .tiposSolo(Set.of(tp6))
+                    .defensivos(Set.of(tebuconazol, azoxistrobina))
                     .build());
 
             Plantio soja = plantioRep.save(Plantio.builder()
@@ -262,6 +329,7 @@ public class DataLoader {
                     .mesesIdeais(Set.of(Month.OCTOBER, Month.NOVEMBER))
                     .urlImg("https://exemplo.com/soja.png")
                     .tiposSolo(Set.of(tp8))
+                    .defensivos(Set.of(glifosato, doisQuatroD))
                     .build());
 
             Plantio milho = plantioRep.save(Plantio.builder()
@@ -273,6 +341,7 @@ public class DataLoader {
                     .mesesIdeais(Set.of(Month.SEPTEMBER, Month.OCTOBER))
                     .urlImg("https://exemplo.com/milho.png")
                     .tiposSolo(Set.of(tp8))
+                    .defensivos(Set.of(atrazina, clorpirifos))
                     .build());
 
             Plantio arroz = plantioRep.save(Plantio.builder()
@@ -284,6 +353,7 @@ public class DataLoader {
                     .mesesIdeais(Set.of(Month.SEPTEMBER, Month.OCTOBER))
                     .urlImg("https://exemplo.com/arroz.png")
                     .tiposSolo(Set.of(tp11))
+                    .defensivos(Set.of(paraquate, fipronil))
                     .build());
 
             Plantio feijao_preto = plantioRep.save(Plantio.builder()
@@ -295,6 +365,7 @@ public class DataLoader {
                     .mesesIdeais(Set.of(Month.OCTOBER, Month.NOVEMBER))
                     .urlImg("https://exemplo.com/feijao_preto.png")
                     .tiposSolo(Set.of(tp11))
+                    .defensivos(Set.of(mancozebe, imidacloprido))
                     .build());
         };
 

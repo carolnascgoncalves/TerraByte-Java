@@ -46,4 +46,16 @@ public class PlantioServiceImp implements PlantioService {
     public Page<Plantio> fetchAll(Pageable pageable){
         return this.plantioRepository.findAll(pageable);
     }
+
+    @Override
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public Page<Plantio> fetchByTipoSolo(UUID tipoSoloId, Pageable pageable){
+        return plantioRepository.findByTiposSolo_Id(tipoSoloId, pageable);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public Page<Plantio> fetchByDefensivo(UUID defensivoId, Pageable pageable){
+        return plantioRepository.findByDefensivos_Id(defensivoId, pageable);
+    }
 }

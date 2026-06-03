@@ -84,20 +84,4 @@ public class UsuarioResource {
                 .map(entidade -> ResponseEntity.ok(UsuarioResponse.toDto(entidade)))
                 .orElseGet( () -> ResponseEntity.notFound().build() );
     }
-
-    @GetMapping("/test-cache")
-    public ResponseEntity<String> testCache(Pageable pageable){
-
-        long start = System.currentTimeMillis();
-
-        Page<Usuario> profiles = this.usuarioService.fetchAll(pageable);
-
-        long end = System.currentTimeMillis();
-
-        long elapsed = end - start;
-
-        System.out.println("Tempo de execução: " + elapsed + " ms (" + profiles.getTotalElements() + " usuários)");
-
-        return ResponseEntity.ok("Executado em " + elapsed + " ms | " + profiles.getTotalElements() + " usuários encontrados");
-    }
 }

@@ -29,7 +29,7 @@ public class EnderecoPlantio {
     @Column(name="CEP_end", length = 10, nullable = false)
     private @Getter @Setter String cep;
 
-    @Size(min = 2, max=100, message="O logradouro deve ter entre 2 à 100 caracteres")
+    @Size(max=300, message="O logradouro deve ter entre 2 à 100 caracteres")
     @Column(name="LOGRAD_end", length = 100)
     private @Getter @Setter String logradouro;
 

@@ -9,6 +9,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import org.springframework.context.annotation.Bean;
 
 public class SecurityScheme {
+    /*
     private SecurityScheme createAPIKeyScheme() {
         return new SecurityScheme().type(SecurityScheme.Type.HTTP)
                 .bearerFormat("JWT")
@@ -27,5 +28,6 @@ public class SecurityScheme {
                         .license(new License().name("License of API")
                                 .url("API license URL")));
     }
+     */
 
 }
