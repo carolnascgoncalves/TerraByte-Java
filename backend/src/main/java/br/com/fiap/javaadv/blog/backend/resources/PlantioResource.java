@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PlantioResource {
     private final PlantioService plantioService;
-
     /*
     @PostMapping
     public ResponseEntity<PlantioRequest> create(@Valid @RequestBody PlantioRequest request ){
@@ -42,7 +41,7 @@ public class PlantioResource {
                 .body(request.toDto(savedEntity));
     }
 
-     */
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable UUID id){
@@ -53,6 +52,8 @@ public class PlantioResource {
         return ResponseEntity.notFound().build();
 
     }
+
+     */
 
     @GetMapping("/listar")
     public ResponseEntity<List<PlantioResponse>> fetchAll(@ParameterObject @PageableDefault(page = 0, size = 10) Pageable pageable){

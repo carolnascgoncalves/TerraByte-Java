@@ -1,6 +1,7 @@
 package br.com.fiap.javaadv.blog.backend.domainmodel.entities;
 
 import br.com.fiap.javaadv.blog.backend.domainmodel.enums.SexoEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @Table(name="Usuario_terrabyte")
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(exclude = "analises")
 @Builder
 public class Usuario {
     @Id
@@ -56,6 +57,7 @@ public class Usuario {
 
     //RELACIONAMENTOS
     //1:N Analise
+    @JsonIgnore
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private @Getter @Setter Set<AnalisePlantio> analises;
 

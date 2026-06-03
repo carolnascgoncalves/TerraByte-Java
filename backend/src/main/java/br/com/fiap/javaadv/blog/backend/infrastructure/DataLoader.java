@@ -51,26 +51,6 @@ public class DataLoader {
                             .urlImg("URLTeste")
                             .build());
 
-            Plantio milho = plantioRep.save(Plantio.builder()
-                    .id(UUID.fromString("cf795087-0105-4ba9-86e8-6f660a825d92"))
-                    .nome("Milho")
-                    .tempMin(20)
-                    .tempMax(35)
-                    .aguaMM(45)
-                    .mesesIdeais(Set.of(Month.SEPTEMBER, Month.OCTOBER, Month.NOVEMBER))
-                    .urlImg("https://exemplo.com/milho.png")
-                    .build());
-
-            Plantio soja = plantioRep.save(Plantio.builder()
-                    .id(UUID.fromString("7a075722-d99d-42a1-acc8-9dfc0c50dd18"))
-                    .nome("Soja")
-                    .tempMin(18)
-                    .tempMax(30)
-                    .aguaMM(50)
-                    .mesesIdeais(Set.of(Month.OCTOBER, Month.NOVEMBER, Month.DECEMBER))
-                    .urlImg("https://exemplo.com/soja.png")
-                    .build());
-
             TipoSolo tp1 = tipoSoloRep.save(TipoSolo.builder()
                     .id(UUID.fromString("9387c57c-28ec-404b-b505-fbcf86426812"))
                     .nome("AREIA")
@@ -117,28 +97,204 @@ public class DataLoader {
                     .build());
 
             TipoSolo tp10 = tipoSoloRep.save(TipoSolo.builder()
-                    .id(UUID.randomUUID())
+                    .id(UUID.fromString("92c2e329-9347-4ec7-9694-9dced263ee2f"))
                     .nome("ARGILO_ARENOSA")
                     .build());
 
             TipoSolo tp11 = tipoSoloRep.save(TipoSolo.builder()
-                    .id(UUID.randomUUID())
+                    .id(UUID.fromString("19ecfccf-79b2-4fae-8f9c-c7cd1a0684c4"))
                     .nome("ARGILA")
                     .build());
 
             TipoSolo tp12 = tipoSoloRep.save(TipoSolo.builder()
-                    .id(UUID.randomUUID())
+                    .id(UUID.fromString("327f9f42-5403-4749-9fb5-e30d4fce120b"))
                     .nome("ARGILO_SILTOSA")
                     .build());
 
             TipoSolo tp13 = tipoSoloRep.save(TipoSolo.builder()
-                    .id(UUID.randomUUID())
+                    .id(UUID.fromString("94ee033b-0d04-4b59-84f8-689b0f221af3"))
                     .nome("MUITO_ARGILOSA")
                     .build());
 
             TipoSolo tp14 = tipoSoloRep.save(TipoSolo.builder()
-                    .id(UUID.randomUUID())
+                    .id(UUID.fromString("da20088c-dab3-42f6-8b43-6121141a99c8"))
                     .nome("DESCONHECIDO")
+                    .build());
+
+            Plantio mandioca = plantioRep.save(Plantio.builder()
+                    .id(UUID.fromString("4d9f5671-8371-4a29-8342-b292ffe2b939"))
+                    .nome("Mandioca")
+                    .tempMin(22)
+                    .tempMax(34)
+                    .aguaMM(40)
+                    .mesesIdeais(Set.of(Month.SEPTEMBER, Month.OCTOBER, Month.NOVEMBER))
+                    .urlImg("https://exemplo.com/mandioca.png")
+                    .tiposSolo(Set.of(tp1))
+                    .build());
+
+            Plantio amendoim = plantioRep.save(Plantio.builder()
+                    .id(UUID.fromString("b03a3726-0b59-46dd-903c-05a0c1e713f7"))
+                    .nome("Amendoim")
+                    .tempMin(20)
+                    .tempMax(32)
+                    .aguaMM(35)
+                    .mesesIdeais(Set.of(Month.SEPTEMBER, Month.OCTOBER))
+                    .urlImg("https://exemplo.com/amendoim.png")
+                    .tiposSolo(Set.of(tp1))
+                    .build());
+
+            Plantio melancia = plantioRep.save(Plantio.builder()
+                    .id(UUID.fromString("cc6d8c2c-4560-4b71-a75f-9ce35a959dd6"))
+                    .nome("Melancia")
+                    .tempMin(20)
+                    .tempMax(35)
+                    .aguaMM(50)
+                    .mesesIdeais(Set.of(Month.SEPTEMBER, Month.OCTOBER, Month.NOVEMBER))
+                    .urlImg("https://exemplo.com/melancia.png")
+                    .tiposSolo(Set.of(tp2))
+                    .build());
+
+            Plantio milho_verde = plantioRep.save(Plantio.builder()
+                    .id(UUID.fromString("7831f3c7-51dc-4d7f-b459-1e3ed87814a9"))
+                    .nome("Milho Verde")
+                    .tempMin(18)
+                    .tempMax(33)
+                    .aguaMM(45)
+                    .mesesIdeais(Set.of(Month.AUGUST, Month.SEPTEMBER, Month.OCTOBER))
+                    .urlImg("https://exemplo.com/milho_verde.png")
+                    .tiposSolo(Set.of(tp2))
+                    .build());
+
+            Plantio feijao = plantioRep.save(Plantio.builder()
+                    .id(UUID.fromString("9c16ce2a-7316-41c1-9ca4-905d289b5372"))
+                    .nome("Feijão")
+                    .tempMin(18)
+                    .tempMax(30)
+                    .aguaMM(55)
+                    .mesesIdeais(Set.of(Month.OCTOBER, Month.NOVEMBER))
+                    .urlImg("https://exemplo.com/feijao.png")
+                    .tiposSolo(Set.of(tp3))
+                    .build());
+
+            Plantio sorgo = plantioRep.save(Plantio.builder()
+                    .id(UUID.fromString("b3129aa5-028f-416c-8761-4d87143c846b"))
+                    .nome("Sorgo")
+                    .tempMin(20)
+                    .tempMax(36)
+                    .aguaMM(40)
+                    .mesesIdeais(Set.of(Month.SEPTEMBER, Month.OCTOBER))
+                    .urlImg("https://exemplo.com/sorgo.png")
+                    .tiposSolo(Set.of(tp3))
+                    .build());
+
+            Plantio cafe = plantioRep.save(Plantio.builder()
+                    .id(UUID.fromString("97abc9f5-ec88-44c3-85a8-a678c9d23973"))
+                    .nome("Café")
+                    .tempMin(18)
+                    .tempMax(26)
+                    .aguaMM(60)
+                    .mesesIdeais(Set.of(Month.MARCH, Month.APRIL, Month.MAY))
+                    .urlImg("https://exemplo.com/cafe.png")
+                    .tiposSolo(Set.of(tp4))
+                    .build());
+
+            Plantio cana_acucar = plantioRep.save(Plantio.builder()
+                    .id(UUID.fromString("84485c05-3790-4c10-a47e-7032fc4a88ad"))
+                    .nome("Cana-de-açúcar")
+                    .tempMin(20)
+                    .tempMax(35)
+                    .aguaMM(70)
+                    .mesesIdeais(Set.of(Month.SEPTEMBER, Month.OCTOBER))
+                    .urlImg("https://exemplo.com/cana.png")
+                    .tiposSolo(Set.of(tp4))
+                    .build());
+
+            Plantio alface = plantioRep.save(Plantio.builder()
+                    .id(UUID.fromString("1ae97b15-6a2e-4675-b199-43759e8f4551"))
+                    .nome("Alface")
+                    .tempMin(15)
+                    .tempMax(25)
+                    .aguaMM(50)
+                    .mesesIdeais(Set.of(Month.MARCH, Month.APRIL, Month.MAY))
+                    .urlImg("https://exemplo.com/alface.png")
+                    .tiposSolo(Set.of(tp5))
+                    .build());
+
+            Plantio tomate = plantioRep.save(Plantio.builder()
+                    .id(UUID.fromString("30833675-f4a3-41bf-89ed-bc2d673ccb9a"))
+                    .nome("Tomate")
+                    .tempMin(18)
+                    .tempMax(28)
+                    .aguaMM(55)
+                    .mesesIdeais(Set.of(Month.AUGUST, Month.SEPTEMBER))
+                    .urlImg("https://exemplo.com/tomate.png")
+                    .tiposSolo(Set.of(tp5))
+                    .build());
+
+            Plantio trigo = plantioRep.save(Plantio.builder()
+                    .id(UUID.fromString("0d2e8c47-af6b-43fa-9358-17df42793b36"))
+                    .nome("Trigo")
+                    .tempMin(12)
+                    .tempMax(24)
+                    .aguaMM(45)
+                    .mesesIdeais(Set.of(Month.MAY, Month.JUNE))
+                    .urlImg("https://exemplo.com/trigo.png")
+                    .tiposSolo(Set.of(tp6))
+                    .build());
+
+            Plantio cevada = plantioRep.save(Plantio.builder()
+                    .id(UUID.fromString("06b2afcd-3fd0-42f7-9276-d77a46c87938"))
+                    .nome("Cevada")
+                    .tempMin(10)
+                    .tempMax(22)
+                    .aguaMM(40)
+                    .mesesIdeais(Set.of(Month.MAY, Month.JUNE))
+                    .urlImg("https://exemplo.com/cevada.png")
+                    .tiposSolo(Set.of(tp6))
+                    .build());
+
+            Plantio soja = plantioRep.save(Plantio.builder()
+                    .id(UUID.fromString("06905ab5-fe14-4c50-883a-25e5a534bfe2"))
+                    .nome("Soja")
+                    .tempMin(18)
+                    .tempMax(30)
+                    .aguaMM(50)
+                    .mesesIdeais(Set.of(Month.OCTOBER, Month.NOVEMBER))
+                    .urlImg("https://exemplo.com/soja.png")
+                    .tiposSolo(Set.of(tp8))
+                    .build());
+
+            Plantio milho = plantioRep.save(Plantio.builder()
+                    .id(UUID.fromString("e6de3d74-cccd-407f-a44f-5f276df623cd"))
+                    .nome("Milho")
+                    .tempMin(20)
+                    .tempMax(35)
+                    .aguaMM(45)
+                    .mesesIdeais(Set.of(Month.SEPTEMBER, Month.OCTOBER))
+                    .urlImg("https://exemplo.com/milho.png")
+                    .tiposSolo(Set.of(tp8))
+                    .build());
+
+            Plantio arroz = plantioRep.save(Plantio.builder()
+                    .id(UUID.fromString("e3ab1402-049e-4973-978a-bd7e75791759"))
+                    .nome("Arroz")
+                    .tempMin(20)
+                    .tempMax(35)
+                    .aguaMM(80)
+                    .mesesIdeais(Set.of(Month.SEPTEMBER, Month.OCTOBER))
+                    .urlImg("https://exemplo.com/arroz.png")
+                    .tiposSolo(Set.of(tp11))
+                    .build());
+
+            Plantio feijao_preto = plantioRep.save(Plantio.builder()
+                    .id(UUID.fromString("82ff98a3-82dd-4a74-a858-83cd8e1d9c2f"))
+                    .nome("Feijão Preto")
+                    .tempMin(18)
+                    .tempMax(30)
+                    .aguaMM(55)
+                    .mesesIdeais(Set.of(Month.OCTOBER, Month.NOVEMBER))
+                    .urlImg("https://exemplo.com/feijao_preto.png")
+                    .tiposSolo(Set.of(tp11))
                     .build());
         };
 

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.*;
@@ -111,6 +112,7 @@ public class AnaliseServiceImp implements AnaliseService {
         else {nivel = "BAIXA";}
 
         AnalisePlantio result = AnalisePlantio.builder()
+                .data(Date.valueOf(LocalDate.now()))
                 .enderecoPlantio(endereco)
                 .plantio(plantio)
                 .tempMax(mediaMax)

@@ -2,6 +2,8 @@ package br.com.fiap.javaadv.blog.backend.resources.dtos;
 
 import br.com.fiap.javaadv.blog.backend.domainmodel.entities.Plantio;
 
+import br.com.fiap.javaadv.blog.backend.domainmodel.entities.TipoSolo;
+import br.com.fiap.javaadv.blog.backend.domainmodel.enums.TipoSoloEnum;
 import lombok.*;
 
 import java.time.Month;
@@ -17,6 +19,7 @@ public class PlantioResponse {
     private @Getter @Setter double tempMin;
     private @Getter @Setter double tempMax;
     private @Getter @Setter double aguaMM;
+    private @Getter @Setter Set<String> tiposDeSolo;
     private @Getter @Setter Set<Month> mesesIdeas;
     private @Getter @Setter String urlImg;
 
@@ -27,6 +30,10 @@ public class PlantioResponse {
                 .tempMin(plantio.getTempMin())
                 .tempMax(plantio.getTempMax())
                 .aguaMM(plantio.getAguaMM())
+                .tiposDeSolo(plantio.getTiposSolo()
+                                .stream()
+                                .map(TipoSolo::getNome)
+                                .collect(java.util.stream.Collectors.toSet()))
                 .mesesIdeas(plantio.getMesesIdeais())
                 .urlImg(plantio.getUrlImg())
                 .build();

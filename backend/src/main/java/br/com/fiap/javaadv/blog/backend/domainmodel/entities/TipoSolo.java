@@ -1,5 +1,6 @@
 package br.com.fiap.javaadv.blog.backend.domainmodel.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -13,7 +14,7 @@ import java.util.UUID;
 @Table(name="TipoSolo_terrabyte")
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(exclude = {"plantios", "enderecos"})
 @Builder
 public class TipoSolo {
     @Id
@@ -25,9 +26,11 @@ public class TipoSolo {
     private @Getter @Setter String nome;
 
     //RELACIONAMENTOS
+    @JsonIgnore
     @ManyToMany(mappedBy = "tiposSolo")
     private @Getter @Setter Set<Plantio> plantios;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "tipoSolo")
     private Set<EnderecoPlantio> enderecos;
 

@@ -14,7 +14,7 @@ import java.util.UUID;
 @Table(name="EnderecoPlantio_terrabyte")
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(exclude = {"tipoSolo", "analises"})
 @Builder
 public class EnderecoPlantio {
     @Id
