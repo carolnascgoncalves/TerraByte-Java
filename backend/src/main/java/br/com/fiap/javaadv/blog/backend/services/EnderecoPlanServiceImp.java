@@ -73,26 +73,13 @@ public class EnderecoPlanServiceImp implements EnderecoPlanService {
 
     @Override
     public Optional<EnderecoPlantio> update(UUID id, EnderecoPlantio patch) {
-        return null;
-        /*
         return enderecoRepository.findById(id)
                 .map(existing -> {
-                    if (patch.getTelefone() != null)
-                        existing.setTelefone(patch.getTelefone());
-
-                    if (patch.getEmail() != null)
-                        existing.setEmail(patch.getEmail());
-
-                    if (patch.getSenha() != null)
-                        existing.setSenha(patch.getSenha());
-
-                    if (patch.getUrlImg() != null)
-                        existing.setUrlImg(patch.getUrlImg());
-
+                    if (patch.getNome() != null)
+                        existing.setNome(patch.getNome());
                     return enderecoRepository.save(existing);
                 });
 
-         */
     }
 
 

@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 public class PlantioResource {
     private final PlantioService plantioService;
 
+    /*
     @PostMapping
     public ResponseEntity<PlantioRequest> create(@Valid @RequestBody PlantioRequest request ){
         Plantio entidade = request.toEntity(request);
@@ -40,6 +41,8 @@ public class PlantioResource {
         return ResponseEntity.created(location)
                 .body(request.toDto(savedEntity));
     }
+
+     */
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable UUID id){

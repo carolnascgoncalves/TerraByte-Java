@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 public class DefensivoResource {
     private final DefensivoService defensivoService;
 
+    /*
     @PostMapping
     public ResponseEntity<DefensivoRequest> create(@Valid @RequestBody DefensivoRequest request ){
         Defensivo entidade = request.toEntity(request);
@@ -37,7 +38,9 @@ public class DefensivoResource {
         return ResponseEntity.created(location)
                 .body(request.toDto(savedEntity));
     }
+     */
 
+    /*
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable UUID id){
         if( this.defensivoService.existsById(id)) {
@@ -47,6 +50,7 @@ public class DefensivoResource {
         return ResponseEntity.notFound().build();
 
     }
+     */
 
     @GetMapping("/listar")
     public ResponseEntity<List<DefensivoResponse>> fetchAll(@ParameterObject @PageableDefault(page = 0, size = 10) Pageable pageable){

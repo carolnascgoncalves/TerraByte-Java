@@ -1,5 +1,6 @@
 package br.com.fiap.javaadv.blog.backend.domainmodel.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -19,14 +20,18 @@ public class EnderecoPlantio {
     @Id
     private @Getter @Setter UUID id;
 
-    @Size(min = 2, max=100, message="O logradouro deve ter entre 2 à 100 caracteres")
-    @Column(name="LOGRAD_end", length = 100)
-    private @Getter @Setter String logradouro;
+    @Size(min = 2, max=300, message="O nome deve ter entre 2 à 300 caracteres")
+    @Column(name="NOME_end", length = 300)
+    private @Getter @Setter String nome;
 
     @NotBlank(message= "O CEP é obrigatorio")
     @Size(min = 8, max=9, message="O CEP deve ter entre 8 à 9 caracteres")
     @Column(name="CEP_end", length = 10, nullable = false)
     private @Getter @Setter String cep;
+
+    @Size(min = 2, max=100, message="O logradouro deve ter entre 2 à 100 caracteres")
+    @Column(name="LOGRAD_end", length = 100)
+    private @Getter @Setter String logradouro;
 
     @Size(min = 2, max=100, message="O cidade deve ter entre 2 à 100 caracteres")
     @Column(name="CIDADE_end", length = 100)
@@ -47,16 +52,16 @@ public class EnderecoPlantio {
     private @Getter @Setter double longitude;
 
     @Column(name="ARGILA_end", length = 100)
-    private @Getter @Setter Double argila;
+    private @Getter @Setter double argila;
 
     @Column(name="AREIA_end", length = 100)
-    private @Getter @Setter Double areia;
+    private @Getter @Setter double areia;
 
     @Column(name="SILTO_end", length = 100)
-    private @Getter @Setter Double silto;
+    private @Getter @Setter double silto;
 
     @Column(name="RAIO_end", length = 100)
-    private @Getter @Setter Double raioSoloKm;
+    private @Getter @Setter double raioSoloKm;
 
     //RELACIONAMENTOS
     //N:1 Tipo solo
@@ -65,6 +70,7 @@ public class EnderecoPlantio {
     private @Getter @Setter TipoSolo tipoSolo;
 
     //1:N Analise
+    @JsonIgnore
     @OneToMany(mappedBy = "enderecoPlantio", fetch = FetchType.LAZY)
     private @Getter @Setter Set<AnalisePlantio> analises;
 

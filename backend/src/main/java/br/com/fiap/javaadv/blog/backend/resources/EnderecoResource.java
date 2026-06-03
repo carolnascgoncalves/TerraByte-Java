@@ -40,16 +40,11 @@ public class EnderecoResource {
 
     @PatchMapping("/{id}")
     public ResponseEntity<EnderecoDadosRequest> update(@PathVariable UUID id, @Valid @RequestBody EnderecoDadosRequest dadosDto){
-        return null;
-        /*
         return this.enderecoPlanService.update(id, EnderecoDadosRequest.toEntity(dadosDto))
                 .map(entidade ->
-                        ResponseEntity.ok(UsuarioDadosRequest.toDto(entidade)))
+                        ResponseEntity.ok(EnderecoDadosRequest.toDto(entidade)))
                 .orElseGet(() -> ResponseEntity.notFound().build() );
-
-         */
     }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable UUID id){
         if( this.enderecoPlanService.existsById(id)) {

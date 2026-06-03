@@ -13,39 +13,20 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 public class AnaliseRequest {
-    private @Getter @Setter double tempMed;
-    private @Getter @Setter double umidadeMed;
-    private @Getter @Setter double probabilidadeSucesso;
-    private @Getter @Setter String epoca;
-    private @Getter @Setter Date data;
-
-    private @Getter @Setter UUID idUsu;
-    private @Getter @Setter UUID idEnd;
-    private @Getter @Setter UUID idPlan;
+    private @Getter @Setter UUID idEndereco;
+    private @Getter @Setter UUID idPlantio;
 
     public static AnaliseRequest toDto(final AnalisePlantio analisePlantio){
         return AnaliseRequest.builder()
-                .tempMed(analisePlantio.getTempMed())
-                .umidadeMed(analisePlantio.getUmidadeMed())
-                .probabilidadeSucesso(analisePlantio.getProbabilidadeSucesso())
-                .epoca(analisePlantio.getEpoca())
-                .data(analisePlantio.getData())
-                .idUsu(analisePlantio.getUsuario().getId())
-                .idEnd(analisePlantio.getEnderecoPlantio().getId())
-                .idPlan(analisePlantio.getPlantio().getId())
+                .idEndereco(analisePlantio.getEnderecoPlantio().getId())
+                .idPlantio(analisePlantio.getPlantio().getId())
                 .build();
     }
 
     public static AnalisePlantio toEntity(final AnaliseRequest dto){
         return AnalisePlantio.builder()
-                .tempMed(dto.getTempMed())
-                .umidadeMed(dto.getUmidadeMed())
-                .probabilidadeSucesso(dto.getProbabilidadeSucesso())
-                .epoca(dto.getEpoca())
-                .data(dto.getData())
-                .usuario(Usuario.builder().id(dto.getIdUsu()).build())
-                .enderecoPlantio(EnderecoPlantio.builder().id(dto.getIdEnd()).build())
-                .plantio(Plantio.builder().id(dto.getIdPlan()).build())
+                .enderecoPlantio(EnderecoPlantio.builder().id(dto.idEndereco).build())
+                .plantio(Plantio.builder().id(dto.idPlantio).build())
                 .build();
     }
 }

@@ -2,6 +2,7 @@ package br.com.fiap.javaadv.blog.backend.infrastructure;
 
 import br.com.fiap.javaadv.blog.backend.datasource.repositories.*;
 import br.com.fiap.javaadv.blog.backend.domainmodel.entities.Defensivo;
+import br.com.fiap.javaadv.blog.backend.domainmodel.entities.Plantio;
 import br.com.fiap.javaadv.blog.backend.domainmodel.entities.TipoSolo;
 import br.com.fiap.javaadv.blog.backend.domainmodel.entities.Usuario;
 import br.com.fiap.javaadv.blog.backend.domainmodel.enums.SexoEnum;
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.sql.Date;
+import java.time.Month;
 import java.util.Set;
 import java.util.UUID;
 
@@ -48,6 +50,26 @@ public class DataLoader {
                             .senha(passwordEncoder.encode("12345678"))
                             .urlImg("URLTeste")
                             .build());
+
+            Plantio milho = plantioRep.save(Plantio.builder()
+                    .id(UUID.fromString("cf795087-0105-4ba9-86e8-6f660a825d92"))
+                    .nome("Milho")
+                    .tempMin(20)
+                    .tempMax(35)
+                    .aguaMM(45)
+                    .mesesIdeais(Set.of(Month.SEPTEMBER, Month.OCTOBER, Month.NOVEMBER))
+                    .urlImg("https://exemplo.com/milho.png")
+                    .build());
+
+            Plantio soja = plantioRep.save(Plantio.builder()
+                    .id(UUID.fromString("7a075722-d99d-42a1-acc8-9dfc0c50dd18"))
+                    .nome("Soja")
+                    .tempMin(18)
+                    .tempMax(30)
+                    .aguaMM(50)
+                    .mesesIdeais(Set.of(Month.OCTOBER, Month.NOVEMBER, Month.DECEMBER))
+                    .urlImg("https://exemplo.com/soja.png")
+                    .build());
 
             TipoSolo tp1 = tipoSoloRep.save(TipoSolo.builder()
                     .id(UUID.fromString("9387c57c-28ec-404b-b505-fbcf86426812"))

@@ -4,6 +4,8 @@ import br.com.fiap.javaadv.blog.backend.domainmodel.entities.Plantio;
 
 import lombok.*;
 
+import java.time.Month;
+import java.util.Set;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -15,7 +17,7 @@ public class PlantioResponse {
     private @Getter @Setter double tempMin;
     private @Getter @Setter double tempMax;
     private @Getter @Setter double aguaMM;
-    private @Getter @Setter String epoca;
+    private @Getter @Setter Set<Month> mesesIdeas;
     private @Getter @Setter String urlImg;
 
     public static PlantioResponse toDto(final Plantio plantio){
@@ -25,7 +27,7 @@ public class PlantioResponse {
                 .tempMin(plantio.getTempMin())
                 .tempMax(plantio.getTempMax())
                 .aguaMM(plantio.getAguaMM())
-                .epoca(plantio.getEpoca())
+                .mesesIdeas(plantio.getMesesIdeais())
                 .urlImg(plantio.getUrlImg())
                 .build();
     }

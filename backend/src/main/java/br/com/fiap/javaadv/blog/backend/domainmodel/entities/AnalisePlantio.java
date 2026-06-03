@@ -20,20 +20,28 @@ public class AnalisePlantio {
     @Id
     private @Getter @Setter UUID id;
 
-    @Column(name="TEMP_MED_ana")
-    private @Getter @Setter double tempMed;
+    @Column(name="DT_ana")
+    private @Getter @Setter Date data;
+
+    @Column(name="TEMP_MIN_ana")
+    private @Getter @Setter double tempMin;
+
+    @Column(name="TEMP_MAX_ana")
+    private @Getter @Setter double tempMax;
 
     @Column(name="UMIDADE_MED_ana")
     private @Getter @Setter double umidadeMed;
 
-    @Column(name="PROB_SUC_ana")
-    private @Getter @Setter double probabilidadeSucesso;
+    @Column(name="ADEQ_ana")
+    private @Getter @Setter double adequadoPlantio;
 
-    @Column(name="RESULTADO_ana", length = 400)
-    private @Getter @Setter String epoca;
+    @Column(name="NVL_risc_ana")
+    private @Getter @Setter String nivelRisco;
 
-    @Column(name="DT_ANALISE_ana")
-    private @Getter @Setter Date data;
+    @Column(name="REC_ana")
+    private @Getter @Setter String recomendacao;
+
+
 
     //RELACIONAMENTOS
     //N:1 Usuario

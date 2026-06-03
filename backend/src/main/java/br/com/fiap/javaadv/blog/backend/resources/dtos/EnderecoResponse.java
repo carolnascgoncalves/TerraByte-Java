@@ -12,8 +12,9 @@ import java.util.UUID;
 @Builder
 public class EnderecoResponse {
     private @Getter @Setter UUID id;
-    private @Getter @Setter String logradouro;
+    private @Getter @Setter String nome;
     private @Getter @Setter String cep;
+    private @Getter @Setter String logradouro;
     private @Getter @Setter String cidade;
     private @Getter @Setter String estado;
     private @Getter @Setter double latitude;
@@ -27,6 +28,7 @@ public class EnderecoResponse {
     public static EnderecoResponse toDto(final EnderecoPlantio enderecoPlantio){
         return EnderecoResponse.builder()
                 .id(enderecoPlantio.getId())
+                .nome(enderecoPlantio.getNome())
                 .logradouro(enderecoPlantio.getLogradouro())
                 .cep(enderecoPlantio.getCep())
                 .cidade(enderecoPlantio.getCidade())

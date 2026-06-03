@@ -24,30 +24,6 @@ import java.util.stream.Collectors;
 public class TipoSoloResource {
     private final TipoSoloService tipoSoloService;
 
-    @PostMapping
-    public ResponseEntity<TipoSoloRequest> create(@Valid @RequestBody TipoSoloRequest request ){
-        TipoSolo entidade = request.toEntity(request);
-        TipoSolo savedEntity = this.tipoSoloService.create(entidade);
-
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(savedEntity.getId())
-                .toUri();
-
-        return ResponseEntity.created(location)
-                .body(request.toDto(savedEntity));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable UUID id){
-        if( this.tipoSoloService.existsById(id)) {
-            this.tipoSoloService.delete(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
-
-    }
-
     @GetMapping("/listar")
     public ResponseEntity<List<TipoSoloResponse>> fetchAll(@ParameterObject @PageableDefault(page = 0, size = 10) Pageable pageable){
         return ResponseEntity.ok(

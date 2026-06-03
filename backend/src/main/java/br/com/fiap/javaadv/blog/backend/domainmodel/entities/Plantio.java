@@ -1,11 +1,13 @@
 package br.com.fiap.javaadv.blog.backend.domainmodel.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.time.Month;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -37,10 +39,8 @@ public class   Plantio {
     @Column(name="AGUA_MM_plan", nullable = false)
     private @Getter @Setter double aguaMM;
 
-    @NotBlank(message= "A Epoca do plantio é obrigatorio")
-    @Size(min = 2, max=100, message="O epoca do plantio deve ter entre 2 à 100 caracteres")
-    @Column(name="EPOCA_PLAN_plan", length = 100, nullable = false)
-    private @Getter @Setter String epoca;
+    @Column(name="EPOCA_plan", nullable = false)
+    private @Getter @Setter Set<Month> mesesIdeais;
 
     @Size(min = 4, max=100, message="A Url deve ter entre 4 à 100 caracteres")
     @Column(name="URL_IMG_plan", length = 100)
@@ -66,6 +66,7 @@ public class   Plantio {
     private @Getter @Setter Set<TipoSolo> tiposSolo;
 
     //1:N Analise
+    @JsonIgnore
     @OneToMany(mappedBy = "plantio", fetch = FetchType.LAZY)
     private @Getter @Setter Set<AnalisePlantio> analisesPlantio;
 
