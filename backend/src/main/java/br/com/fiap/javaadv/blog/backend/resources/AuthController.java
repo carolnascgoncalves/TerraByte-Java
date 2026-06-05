@@ -4,6 +4,7 @@ import br.com.fiap.javaadv.blog.backend.infrastructure.config.JwtHelper;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.AuthRequest;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.AuthResponse;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.TokenRefreshRequest;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -31,9 +29,9 @@ public class AuthController {
 
     //temp token eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3NzkxMTQ2ODYsImV4cCI6MTc3OTIwMTA4Nn0.xbaM4ZReHcAKI804N9dIx54_VGIw1_lZ1mWN6ZP3GBo
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest request){
+    public ResponseEntity<?> login(@RequestParam String email, @RequestParam String senha){
+        var request = AuthRequest.builder().email(email).password(senha).build();
 
-        System.out.println("USER/PASS: "+request.email() + " " + request.password());
         Authentication auth = this.authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.email(), request.password()));
 

@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,9 @@ public class EnderecoResource {
     private final EnderecoPlanService enderecoPlanService;
 
     @PostMapping
-    public ResponseEntity<EnderecoRequest> create(@Valid @RequestBody EnderecoRequest request){
+    public ResponseEntity<EnderecoRequest> create(@RequestParam String nome, @RequestParam String cep){
+        var request = EnderecoRequest.builder().nome(nome).cep(cep).build();
+
         if(this.enderecoPlanService.existsByName(request.getNome())) throw new RuntimeException("Nome já registrado!");
 
         EnderecoPlantio entidade = request.toEntity(request);
@@ -58,7 +61,8 @@ public class EnderecoResource {
     }
 
     @GetMapping("/listar")
-    public ResponseEntity<List<EnderecoResponse>> fetchAll(@ParameterObject @PageableDefault(page = 0, size = 10) Pageable pageable){
+    public ResponseEntity<List<EnderecoResponse>> fetchAll(@ParameterObject @PageableDefault(page = 0, size = 10, sort = "nome",
+            direction = Sort.Direction.ASC) Pageable pageable){
         return ResponseEntity.ok(
                 this.enderecoPlanService.fetchAll(pageable)
                         .getContent()

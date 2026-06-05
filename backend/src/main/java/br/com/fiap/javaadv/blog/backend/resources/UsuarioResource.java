@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,7 +69,8 @@ public class UsuarioResource {
 
     @GetMapping("/listar")
     @Cacheable( value = "usuariosCache")
-    public ResponseEntity<List<UsuarioResponse>> fetchAll(@ParameterObject @PageableDefault(page = 0, size = 10) Pageable pageable){
+    public ResponseEntity<List<UsuarioResponse>> fetchAll(@ParameterObject @PageableDefault(page = 0, size = 10,sort = "nome",
+            direction = Sort.Direction.ASC) Pageable pageable){
         return ResponseEntity.ok(
                 this.usuarioService.fetchAll(pageable)
                         .getContent()

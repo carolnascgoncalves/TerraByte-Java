@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,8 @@ import java.util.stream.Collectors;
 public class PlantioResource {
     private final PlantioService plantioService;
     @GetMapping("/listar")
-    public ResponseEntity<List<PlantioResponse>> fetchAll(@ParameterObject @PageableDefault(page = 0, size = 10) Pageable pageable){
+    public ResponseEntity<List<PlantioResponse>> fetchAll(@ParameterObject @PageableDefault(page = 0, size = 10, sort = "nome",
+            direction = Sort.Direction.ASC) Pageable pageable){
         return ResponseEntity.ok(
                 this.plantioService.fetchAll(pageable)
                         .getContent()
@@ -45,8 +47,8 @@ public class PlantioResource {
     }
 
     @GetMapping("/solo/{idTipoSolo}")
-    public ResponseEntity<List<PlantioResponse>> fetchByTipoSolo(@PathVariable UUID idTipoSolo,
-                                                                 @ParameterObject @PageableDefault(page = 0, size = 10) Pageable pageable){
+    public ResponseEntity<List<PlantioResponse>> fetchByTipoSolo(@PathVariable UUID idTipoSolo, @ParameterObject @PageableDefault(page = 0, size = 10, sort = "nome",
+            direction = Sort.Direction.ASC) Pageable pageable){
         return ResponseEntity.ok(
                 plantioService.fetchByTipoSolo(idTipoSolo, pageable)
                         .getContent()
@@ -56,11 +58,9 @@ public class PlantioResource {
         );
     }
 
-    @GetMapping("/defensivo/{idDefensivo}")
-    public ResponseEntity<List<PlantioResponse>> fetchByDefensivo(@PathVariable UUID idDefensivo,
-            @ParameterObject
-            @PageableDefault(page = 0, size = 10)
-            Pageable pageable){
+    @GetMapping("/tipoDefensivo/{idDefensivo}")
+    public ResponseEntity<List<PlantioResponse>> fetchByDefensivo(@PathVariable UUID idDefensivo, @ParameterObject @PageableDefault(page = 0, size = 10, sort = "nome",
+            direction = Sort.Direction.ASC) Pageable pageable){
 
         return ResponseEntity.ok(
                 plantioService.fetchByDefensivo(idDefensivo, pageable)
