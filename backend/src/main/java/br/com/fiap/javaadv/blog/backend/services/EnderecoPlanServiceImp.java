@@ -5,8 +5,10 @@ import br.com.fiap.javaadv.blog.backend.anticorruptionlayer.interfaces.Geocoding
 import br.com.fiap.javaadv.blog.backend.anticorruptionlayer.interfaces.SoilGridsService;
 import br.com.fiap.javaadv.blog.backend.datasource.repositories.EnderecoPlantioRepository;
 import br.com.fiap.javaadv.blog.backend.datasource.repositories.TipoSoloRepository;
+import br.com.fiap.javaadv.blog.backend.datasource.repositories.UsuarioRepository;
 import br.com.fiap.javaadv.blog.backend.domainmodel.entities.EnderecoPlantio;
 import br.com.fiap.javaadv.blog.backend.domainmodel.entities.TipoSolo;
+import br.com.fiap.javaadv.blog.backend.domainmodel.entities.Usuario;
 import br.com.fiap.javaadv.blog.backend.domainmodel.enums.TipoSoloEnum;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.CoordenadaResponse;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.SoilGridsResultado;
@@ -27,6 +29,7 @@ import java.util.UUID;
 @Transactional( propagation = Propagation.REQUIRED)
 public class EnderecoPlanServiceImp implements EnderecoPlanService {
     private final EnderecoPlantioRepository enderecoRepository;
+    private final UsuarioRepository usuarioRepository;
     private final ViaCepServiceImp viaCepServiceImp;
     private final GeocodingService geocodingService;
     private final SoilGridsService soilService;
@@ -34,7 +37,10 @@ public class EnderecoPlanServiceImp implements EnderecoPlanService {
 
 
     @Override
-    public EnderecoPlantio create(EnderecoPlantio end){
+    public EnderecoPlantio create(EnderecoPlantio end, String email){
+        Usuario usuario = usuarioRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        end.setUsuario(usuario);
+
         ViaCepResponse viaCep = viaCepServiceImp.buscarCep(end.getCep());
         CoordenadaResponse coordenada = geocodingService.buscarCoordenadas(viaCep.getLocalidade(), viaCep.getEstado());
 
@@ -104,9 +110,13 @@ public class EnderecoPlanServiceImp implements EnderecoPlanService {
     @Override
     public boolean existsByName(String nome){ return this.enderecoRepository.existsByNome(nome);}
 
+    @Override
     public Page<EnderecoPlantio> fetchAll(Pageable pageable){
         return this.enderecoRepository.findAll(pageable);
     }
 
-
+    @Override
+    public Page<EnderecoPlantio> fetchAllByUsuario(String email, Pageable pageable) {
+        return enderecoRepository.findByUsuarioEmail(email, pageable);
+    }
 }

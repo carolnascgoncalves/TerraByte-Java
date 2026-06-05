@@ -6,6 +6,7 @@ import br.com.fiap.javaadv.blog.backend.resources.dtos.UsuarioLoginRequest;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.UsuarioRequest;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.UsuarioResponse;
 import br.com.fiap.javaadv.blog.backend.services.interfaces.UsuarioService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -48,6 +50,8 @@ public class UsuarioResource {
                 .body(request.toDto(savedEntity));
     }
 
+    /*
+    @SecurityRequirement(name = "bearerAuth")
     @PatchMapping("/{id}")
     public ResponseEntity<UsuarioDadosRequest> update(@PathVariable UUID id, @Valid @RequestBody UsuarioDadosRequest dadosDto){
         return this.usuarioService.update(id, UsuarioDadosRequest.toEntity(dadosDto))
@@ -55,7 +59,41 @@ public class UsuarioResource {
                         ResponseEntity.ok(UsuarioDadosRequest.toDto(entidade)))
                 .orElseGet(() -> ResponseEntity.notFound().build() );
     }
+     */
 
+    @PatchMapping("/infos")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<UsuarioDadosRequest> update(Authentication authentication, @Valid @RequestBody UsuarioDadosRequest dadosDto){
+        String email = authentication.getName();
+        return usuarioService.updateByEmail(email, UsuarioDadosRequest.toEntity(dadosDto))
+                .map(usuario -> ResponseEntity.ok(UsuarioDadosRequest.toDto(usuario)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/infos")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<Void> delete(Authentication authentication){
+
+        String email = authentication.getName();
+
+        usuarioService.deleteByEmail(email);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/infos")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<UsuarioResponse> infos(Authentication authentication){
+
+        String email = authentication.getName();
+
+        return usuarioService.fetchEntityByEmail(email)
+                .map(usuario -> ResponseEntity.ok(UsuarioResponse.toDto(usuario)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    /*
+    @SecurityRequirement(name = "bearerAuth")
     @DeleteMapping("/{id}")
     @CacheEvict(value="usuariosCache", key="#id")
     public ResponseEntity<Void> deleteById(@PathVariable UUID id){
@@ -66,7 +104,9 @@ public class UsuarioResource {
         return ResponseEntity.notFound().build();
 
     }
+     */
 
+    /*
     @GetMapping("/listar")
     @Cacheable( value = "usuariosCache")
     public ResponseEntity<List<UsuarioResponse>> fetchAll(@ParameterObject @PageableDefault(page = 0, size = 10,sort = "nome",
@@ -80,10 +120,15 @@ public class UsuarioResource {
         );
     }
 
-    @GetMapping("/{id}")
+        @GetMapping("/{id}")
     public ResponseEntity<UsuarioResponse> fetchById( @PathVariable UUID id ){
         return this.usuarioService.fetchById(id)
                 .map(entidade -> ResponseEntity.ok(UsuarioResponse.toDto(entidade)))
                 .orElseGet( () -> ResponseEntity.notFound().build() );
     }
+
+     */
+
+
+
 }

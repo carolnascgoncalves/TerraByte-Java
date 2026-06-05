@@ -9,11 +9,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface EnderecoPlanService {
-    EnderecoPlantio create(EnderecoPlantio endereco);
+    EnderecoPlantio create(EnderecoPlantio endereco, String email);
 
     Optional<EnderecoPlantio> update(UUID id, EnderecoPlantio endereco);
 
     Page<EnderecoPlantio> fetchAll(Pageable pageable);
+
+    Page<EnderecoPlantio> fetchAllByUsuario(String email, Pageable pageable);
 
     Optional<EnderecoPlantio> fetchById(UUID id);
 

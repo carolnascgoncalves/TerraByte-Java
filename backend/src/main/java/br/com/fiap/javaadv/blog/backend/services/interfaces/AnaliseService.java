@@ -10,9 +10,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface AnaliseService {
-    AnalisePlantio create(AnalisePlantio analisePlantio);
+    AnalisePlantio create(AnalisePlantio analisePlantio, String email);
 
     Page<AnalisePlantio> fetchAll(Pageable pageable);
+
+    Page<AnalisePlantio> fetchAllByUsuario(String email, Pageable pageable);
+
+    Optional<AnalisePlantio> fetchByIdAndUsuario(UUID id, String email);
 
     Optional<AnalisePlantio> fetchById(UUID id);
 

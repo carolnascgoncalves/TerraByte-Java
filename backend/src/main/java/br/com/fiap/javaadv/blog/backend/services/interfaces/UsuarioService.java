@@ -16,13 +16,17 @@ public interface UsuarioService {
 
     void delete(UUID id);
 
+    void deleteByEmail(String email);
+
+    Optional<Usuario> updateByEmail(String email, Usuario usuario);
+
     Page<Usuario> fetchAll(Pageable pageable);
 
     Optional<Usuario> fetchById(UUID id);
 
     boolean existsById(UUID id);
 
-    //Optional<Usuario> fetchByEmail(String email, String senha);
+    Optional<Usuario> fetchEntityByEmail(String email);
 
     UserDetails fetchByEmail(String email);
 }

@@ -74,6 +74,10 @@ public class EnderecoPlantio {
     @OneToMany(mappedBy = "enderecoPlantio", fetch = FetchType.LAZY)
     private @Getter @Setter Set<AnalisePlantio> analises;
 
+    //N:1 Usuario
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_USUARIO_FK", nullable = false)
+    private @Getter @Setter Usuario usuario;
 
 
     @Override

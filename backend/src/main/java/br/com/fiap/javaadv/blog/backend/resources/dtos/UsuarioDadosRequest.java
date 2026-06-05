@@ -7,14 +7,12 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class UsuarioDadosRequest {
-    private @Getter @Setter String email;
     private @Getter @Setter String telefone;
     private @Getter @Setter String senha;
     private @Getter @Setter String urlImg;
 
     public static UsuarioDadosRequest toDto(final Usuario usuario){
         return UsuarioDadosRequest.builder()
-                .email(usuario.getEmail())
                 .telefone(usuario.getTelefone())
                 .senha(usuario.getSenha())
                 .urlImg(usuario.getUrlImg())
@@ -23,7 +21,6 @@ public class UsuarioDadosRequest {
 
     public static Usuario toEntity(final UsuarioDadosRequest dto){
         return Usuario.builder()
-                .email(dto.getEmail())
                 .telefone(dto.getTelefone())
                 .senha(dto.getSenha())
                 .urlImg(dto.getUrlImg())

@@ -4,6 +4,7 @@ import br.com.fiap.javaadv.blog.backend.domainmodel.entities.EnderecoPlantio;
 import br.com.fiap.javaadv.blog.backend.domainmodel.entities.Usuario;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.*;
 import br.com.fiap.javaadv.blog.backend.services.interfaces.EnderecoPlanService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -22,17 +24,19 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/endereco")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class EnderecoResource {
     private final EnderecoPlanService enderecoPlanService;
 
     @PostMapping
-    public ResponseEntity<EnderecoRequest> create(@RequestParam String nome, @RequestParam String cep){
+    public ResponseEntity<EnderecoRequest> create(Authentication authentication, @RequestParam String nome, @RequestParam String cep){
+        String email = authentication.getName();
         var request = EnderecoRequest.builder().nome(nome).cep(cep).build();
 
         if(this.enderecoPlanService.existsByName(request.getNome())) throw new RuntimeException("Nome já registrado!");
 
         EnderecoPlantio entidade = request.toEntity(request);
-        EnderecoPlantio savedEntity = this.enderecoPlanService.create(entidade);
+        EnderecoPlantio savedEntity = enderecoPlanService.create(entidade, email);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -60,11 +64,27 @@ public class EnderecoResource {
 
     }
 
+    /*
     @GetMapping("/listar")
     public ResponseEntity<List<EnderecoResponse>> fetchAll(@ParameterObject @PageableDefault(page = 0, size = 10, sort = "nome",
             direction = Sort.Direction.ASC) Pageable pageable){
         return ResponseEntity.ok(
                 this.enderecoPlanService.fetchAll(pageable)
+                        .getContent()
+                        .stream()
+                        .map(EnderecoResponse::toDto)
+                        .collect(Collectors.toList())
+        );
+    }
+
+     */
+
+    @GetMapping("/listar")
+    public ResponseEntity<List<EnderecoResponse>> fetchAll(Authentication authentication, @ParameterObject @PageableDefault(page = 0, size = 10, sort = "nome", direction = Sort.Direction.ASC) Pageable pageable) {
+        String email = authentication.getName();
+        return ResponseEntity.ok(
+                enderecoPlanService
+                        .fetchAllByUsuario(email, pageable)
                         .getContent()
                         .stream()
                         .map(EnderecoResponse::toDto)

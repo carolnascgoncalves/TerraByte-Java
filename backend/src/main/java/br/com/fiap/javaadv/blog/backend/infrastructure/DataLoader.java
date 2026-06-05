@@ -34,14 +34,25 @@ public class DataLoader {
         return args -> {
             Usuario user1 = usuarioRep.save(Usuario.builder()
                             .id(UUID.fromString("978c415d-7c8b-4b37-af9a-d54fcb1bda46"))
-                            .nome("Nome teste")
+                            .nome("Sandra Nascimento")
                             .dataNascimento(Date.valueOf("1968-11-14"))
                             .telefone("11945414013")
                             .sexo(SexoEnum.F)
-                            .email("emailTeste@gmail.com")
-                            .senha(passwordEncoder.encode("12345678"))
-                            .urlImg("URLTeste")
+                            .email("sandra@gmail.com")
+                            .senha(passwordEncoder.encode("sandraReg123"))
+                            .urlImg("https://exemplo.com/sandra.png")
                             .build());
+
+            Usuario user2 = usuarioRep.save(Usuario.builder()
+                    .id(UUID.fromString("8e9b28e7-fd43-4ee5-b293-74b45730215b"))
+                    .nome("Renato gonçalves")
+                    .dataNascimento(Date.valueOf("1980-09-04"))
+                    .telefone("11972632948")
+                    .sexo(SexoEnum.M)
+                    .email("renato@gmail.com")
+                    .senha(passwordEncoder.encode("renatoGon123"))
+                    .urlImg("https://exemplo.com/renato.png")
+                    .build());
 
             TipoSolo tp1 = tipoSoloRep.save(TipoSolo.builder()
                     .id(UUID.fromString("9387c57c-28ec-404b-b505-fbcf86426812"))

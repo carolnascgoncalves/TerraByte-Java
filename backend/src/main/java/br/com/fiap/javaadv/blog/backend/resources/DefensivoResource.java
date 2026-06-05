@@ -4,6 +4,7 @@ import br.com.fiap.javaadv.blog.backend.domainmodel.entities.Defensivo;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.DefensivoRequest;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.DefensivoResponse;
 import br.com.fiap.javaadv.blog.backend.services.interfaces.DefensivoService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/defensivo")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class DefensivoResource {
     private final DefensivoService defensivoService;
 

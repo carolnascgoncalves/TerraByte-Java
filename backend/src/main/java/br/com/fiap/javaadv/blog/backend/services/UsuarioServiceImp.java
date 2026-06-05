@@ -36,6 +36,24 @@ public class UsuarioServiceImp implements UsuarioService {
                     if (patch.getTelefone() != null)
                         existing.setTelefone(patch.getTelefone());
 
+                    if (patch.getSenha() != null)
+                        existing.setSenha(patch.getSenha());
+
+                    if (patch.getUrlImg() != null)
+                        existing.setUrlImg(patch.getUrlImg());
+
+                    return usuarioRepository.save(existing);
+                });
+    }
+
+    @Override
+    public Optional<Usuario> updateByEmail(String email, Usuario patch) {
+        return usuarioRepository.findByEmail(email)
+                .map(existing -> {
+
+                    if (patch.getTelefone() != null)
+                        existing.setTelefone(patch.getTelefone());
+
                     if (patch.getEmail() != null)
                         existing.setEmail(patch.getEmail());
 
@@ -48,9 +66,18 @@ public class UsuarioServiceImp implements UsuarioService {
                     return usuarioRepository.save(existing);
                 });
     }
+
     @Override
     public void delete(UUID id){
         usuarioRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteByEmail(String email) {
+
+        Usuario usuario = usuarioRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        usuarioRepository.delete(usuario);
     }
 
     @Override
@@ -69,15 +96,11 @@ public class UsuarioServiceImp implements UsuarioService {
         return this.usuarioRepository.findAll(pageable);
     }
 
-    /*
     @Override
-    public Optional<Usuario> fetchByEmail(String email, String senha){
-        Optional<Usuario> usu = usuarioRepository.findByEmail(email);
-        if (usu.isPresent() && passwordEncoder.matches(senha, usu.get().getSenha())) {return usu;}
-
-        return Optional.empty();
+    public Optional<Usuario> fetchEntityByEmail(String email) {
+        return usuarioRepository.findByEmail(email);
     }
-    */
+
 
     @Override
     public UserDetails fetchByEmail(String username) throws UsernameNotFoundException {

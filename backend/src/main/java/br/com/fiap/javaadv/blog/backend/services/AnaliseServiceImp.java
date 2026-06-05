@@ -4,9 +4,11 @@ import br.com.fiap.javaadv.blog.backend.anticorruptionlayer.WeatherServiceImp;
 import br.com.fiap.javaadv.blog.backend.datasource.repositories.AnalisePlantioRepository;
 import br.com.fiap.javaadv.blog.backend.datasource.repositories.EnderecoPlantioRepository;
 import br.com.fiap.javaadv.blog.backend.datasource.repositories.PlantioRepository;
+import br.com.fiap.javaadv.blog.backend.datasource.repositories.UsuarioRepository;
 import br.com.fiap.javaadv.blog.backend.domainmodel.entities.AnalisePlantio;
 import br.com.fiap.javaadv.blog.backend.domainmodel.entities.EnderecoPlantio;
 import br.com.fiap.javaadv.blog.backend.domainmodel.entities.Plantio;
+import br.com.fiap.javaadv.blog.backend.domainmodel.entities.Usuario;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.WeatherResponse;
 import br.com.fiap.javaadv.blog.backend.services.interfaces.AnaliseService;
 import lombok.RequiredArgsConstructor;
@@ -26,19 +28,16 @@ import java.util.*;
 @Transactional( propagation = Propagation.REQUIRED)
 public class AnaliseServiceImp implements AnaliseService {
     private final AnalisePlantioRepository analiseRepository;
+    private final UsuarioRepository usuarioRepository;
     private final WeatherServiceImp weatherServiceImp;
     private final EnderecoPlantioRepository enderecoRepository;
     private final PlantioRepository plantioRepository;
 
     @Override
-    public AnalisePlantio create(AnalisePlantio analise) {
-        EnderecoPlantio endereco = enderecoRepository.findById(
-                        analise.getEnderecoPlantio().getId())
-                .orElseThrow(() -> new RuntimeException("Endereço não encontrado"));
-
-        Plantio plantio = plantioRepository.findById(
-                        analise.getPlantio().getId())
-                .orElseThrow(() -> new RuntimeException("Plantio não encontrado"));
+    public AnalisePlantio create(AnalisePlantio analise, String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        EnderecoPlantio endereco = enderecoRepository.findById(analise.getEnderecoPlantio().getId()).orElseThrow(() -> new RuntimeException("Endereço não encontrado"));
+        Plantio plantio = plantioRepository.findById(analise.getPlantio().getId()).orElseThrow(() -> new RuntimeException("Plantio não encontrado"));
 
         WeatherResponse weather = weatherServiceImp.getForecast(endereco.getLatitude(), endereco.getLongitude());
 
@@ -174,6 +173,7 @@ public class AnaliseServiceImp implements AnaliseService {
                 "Classificação: " + nivel;
 
         AnalisePlantio result = AnalisePlantio.builder()
+                .usuario(usuario)
                 .data(Date.valueOf(LocalDate.now()))
                 .enderecoPlantio(endereco)
                 .plantio(plantio)
@@ -205,7 +205,18 @@ public class AnaliseServiceImp implements AnaliseService {
         return this.analiseRepository.existsById(id);
     }
 
+    @Override
     public Page<AnalisePlantio> fetchAll(Pageable pageable){
         return this.analiseRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<AnalisePlantio> fetchAllByUsuario(String email, Pageable pageable) {
+        return analiseRepository.findByUsuarioEmail(email, pageable);
+    }
+
+    @Override
+    public Optional<AnalisePlantio> fetchByIdAndUsuario(UUID id, String email) {
+        return analiseRepository.findByIdAndUsuarioEmail(id, email);
     }
 }

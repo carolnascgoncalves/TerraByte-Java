@@ -7,6 +7,7 @@ import br.com.fiap.javaadv.blog.backend.resources.dtos.PlantioResponse;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.TipoSoloRequest;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.TipoSoloResponse;
 import br.com.fiap.javaadv.blog.backend.services.interfaces.PlantioService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/plantio")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class PlantioResource {
     private final PlantioService plantioService;
     @GetMapping("/listar")

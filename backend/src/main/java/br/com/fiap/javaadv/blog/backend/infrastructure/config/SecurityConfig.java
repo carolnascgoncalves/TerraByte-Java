@@ -33,7 +33,6 @@ public class SecurityConfig {
                 .headers( headers -> headers
                         .frameOptions(frame -> frame.disable())
                 )
-                /*
                 .authorizeHttpRequests(auth -> auth
                                 .requestMatchers(
                                         "/auth/**",
@@ -46,12 +45,13 @@ public class SecurityConfig {
                                         "/console/**"
                                 ).permitAll()
                                 .anyRequest().authenticated()
-                )*/
+                )
 
-                .authorizeHttpRequests(auth -> auth
+                /*.authorizeHttpRequests(auth -> auth
                         .requestMatchers("/**").permitAll()
                         .anyRequest().authenticated()
                 )
+                 */
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
