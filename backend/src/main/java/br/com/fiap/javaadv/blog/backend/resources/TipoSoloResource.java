@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -28,6 +29,7 @@ public class TipoSoloResource {
     private final TipoSoloService tipoSoloService;
 
     @GetMapping("/listar")
+    @Cacheable( value = "tipoSoloCache")
     public ResponseEntity<List<TipoSoloResponse>> fetchAll(@ParameterObject @PageableDefault(page = 0, size = 10,sort = "nome",
             direction = Sort.Direction.ASC) Pageable pageable){
         return ResponseEntity.ok(
@@ -40,6 +42,7 @@ public class TipoSoloResource {
     }
 
     @GetMapping("/{id}")
+    @Cacheable(value = "tipoSoloCache", key = "#id")
     public ResponseEntity<TipoSoloResponse> fetchById( @PathVariable UUID id ){
         return this.tipoSoloService.fetchById(id)
                 .map(entidade -> ResponseEntity.ok(TipoSoloResponse.toDto(entidade)))

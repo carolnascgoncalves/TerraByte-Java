@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -36,7 +37,6 @@ public class UsuarioResource {
     private final UsuarioService usuarioService;
 
     @PostMapping
-    @CachePut(value = "usuariosCache", key="#usuarioDTO.id")
     public ResponseEntity<UsuarioRequest> create(@Valid @RequestBody UsuarioRequest request ){
         Usuario entidade = request.toEntity(request);
         Usuario savedEntity = this.usuarioService.create(entidade);
@@ -50,7 +50,7 @@ public class UsuarioResource {
                 .body(request.toDto(savedEntity));
     }
 
-    /*
+
     @SecurityRequirement(name = "bearerAuth")
     @PatchMapping("/{id}")
     public ResponseEntity<UsuarioDadosRequest> update(@PathVariable UUID id, @Valid @RequestBody UsuarioDadosRequest dadosDto){
@@ -59,31 +59,13 @@ public class UsuarioResource {
                         ResponseEntity.ok(UsuarioDadosRequest.toDto(entidade)))
                 .orElseGet(() -> ResponseEntity.notFound().build() );
     }
-     */
 
-    @PatchMapping("/infos")
+
+    @GetMapping("/infos") //up
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<UsuarioDadosRequest> update(Authentication authentication, @Valid @RequestBody UsuarioDadosRequest dadosDto){
-        String email = authentication.getName();
-        return usuarioService.updateByEmail(email, UsuarioDadosRequest.toEntity(dadosDto))
-                .map(usuario -> ResponseEntity.ok(UsuarioDadosRequest.toDto(usuario)))
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @DeleteMapping("/infos")
-    @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<Void> delete(Authentication authentication){
-
-        String email = authentication.getName();
-
-        usuarioService.deleteByEmail(email);
-
-        return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/infos")
-    @SecurityRequirement(name = "bearerAuth")
+    @Cacheable( value = "usuarioInfoCache", key = "#authentication.name")
     public ResponseEntity<UsuarioResponse> infos(Authentication authentication){
+
 
         String email = authentication.getName();
 
@@ -92,7 +74,7 @@ public class UsuarioResource {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    /*
+
     @SecurityRequirement(name = "bearerAuth")
     @DeleteMapping("/{id}")
     @CacheEvict(value="usuariosCache", key="#id")
@@ -104,13 +86,19 @@ public class UsuarioResource {
         return ResponseEntity.notFound().build();
 
     }
-     */
 
-    /*
+    @GetMapping("/{id}")
+    @Cacheable(value = "usuariosCache", key="#id")
+    public ResponseEntity<UsuarioResponse> fetchById( @PathVariable UUID id ){
+        return this.usuarioService.fetchById(id)
+                .map(entidade -> ResponseEntity.ok(UsuarioResponse.toDto(entidade)))
+                .orElseGet( () -> ResponseEntity.notFound().build() );
+    }
+
     @GetMapping("/listar")
-    @Cacheable( value = "usuariosCache")
-    public ResponseEntity<List<UsuarioResponse>> fetchAll(@ParameterObject @PageableDefault(page = 0, size = 10,sort = "nome",
-            direction = Sort.Direction.ASC) Pageable pageable){
+    @Cacheable( value = "usuariosCache", key="#pageable.pageNumber")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<List<UsuarioResponse>> fetchAll(@ParameterObject @PageableDefault(page = 0, size = 10) Pageable pageable){
         return ResponseEntity.ok(
                 this.usuarioService.fetchAll(pageable)
                         .getContent()
@@ -120,15 +108,18 @@ public class UsuarioResource {
         );
     }
 
-        @GetMapping("/{id}")
-    public ResponseEntity<UsuarioResponse> fetchById( @PathVariable UUID id ){
-        return this.usuarioService.fetchById(id)
-                .map(entidade -> ResponseEntity.ok(UsuarioResponse.toDto(entidade)))
-                .orElseGet( () -> ResponseEntity.notFound().build() );
+
+    @GetMapping("/test-cache")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<String> testCache() {
+        long start = System.currentTimeMillis();
+
+        Page<Usuario> usuarios = usuarioService.fetchAll(PageRequest.of(0, 1));
+
+        long end = System.currentTimeMillis();
+        long elapsed = end - start;
+
+        System.out.println("Tempo de execução: " + elapsed + " ms (" + usuarios.getTotalElements() + " usuários)");
+        return ResponseEntity.ok("Executado em " + elapsed + " ms. " + usuarios.getTotalElements() + " usuários encontrados.");
     }
-
-     */
-
-
-
 }

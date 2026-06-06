@@ -15,6 +15,9 @@ import br.com.fiap.javaadv.blog.backend.resources.dtos.SoilGridsResultado;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.ViaCepResponse;
 import br.com.fiap.javaadv.blog.backend.services.interfaces.EnderecoPlanService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -37,6 +40,7 @@ public class EnderecoPlanServiceImp implements EnderecoPlanService {
 
 
     @Override
+    @CachePut(value = "enderecoCache", key = "#result.id")
     public EnderecoPlantio create(EnderecoPlantio end, String email){
         Usuario usuario = usuarioRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
         end.setUsuario(usuario);
@@ -91,11 +95,13 @@ public class EnderecoPlanServiceImp implements EnderecoPlanService {
 
 
     @Override
+    @CacheEvict(value="enderecoCache", allEntries = true)
     public void delete(UUID id){
         enderecoRepository.deleteById(id);
     }
 
     @Override
+    @Cacheable(value="enderecoCache", key="#id")
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public Optional<EnderecoPlantio> fetchById(UUID id){
         return this.enderecoRepository.findById(id);
@@ -116,6 +122,7 @@ public class EnderecoPlanServiceImp implements EnderecoPlanService {
     }
 
     @Override
+    @Cacheable( value = "enderecoCache")
     public Page<EnderecoPlantio> fetchAllByUsuario(String email, Pageable pageable) {
         return enderecoRepository.findByUsuarioEmail(email, pageable);
     }

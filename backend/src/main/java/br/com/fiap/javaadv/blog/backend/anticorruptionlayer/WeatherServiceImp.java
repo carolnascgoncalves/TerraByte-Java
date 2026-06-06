@@ -3,6 +3,7 @@ package br.com.fiap.javaadv.blog.backend.anticorruptionlayer;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.OpenMeteoResponse;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.WeatherResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -11,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 public class WeatherServiceImp {
     private final RestTemplate restTemplate = new RestTemplate();
 
+    @Cacheable(value="weatherCache", key="#latitude + '-' + #longitude")
     public WeatherResponse getForecast(double lat, double lon) {
 
         String url = String.format(

@@ -8,6 +8,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -29,9 +32,8 @@ public class EnderecoResource {
     private final EnderecoPlanService enderecoPlanService;
 
     @PostMapping
-    public ResponseEntity<EnderecoRequest> create(Authentication authentication, @RequestParam String nome, @RequestParam String cep){
+    public ResponseEntity<EnderecoRequest> create(Authentication authentication, @Valid @RequestBody EnderecoRequest request){
         String email = authentication.getName();
-        var request = EnderecoRequest.builder().nome(nome).cep(cep).build();
 
         if(this.enderecoPlanService.existsByName(request.getNome())) throw new RuntimeException("Nome já registrado!");
 
@@ -54,6 +56,7 @@ public class EnderecoResource {
                         ResponseEntity.ok(EnderecoDadosRequest.toDto(entidade)))
                 .orElseGet(() -> ResponseEntity.notFound().build() );
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable UUID id){
         if( this.enderecoPlanService.existsById(id)) {

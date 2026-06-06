@@ -10,5 +10,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface UsuarioRepository  extends JpaRepository<Usuario, UUID> {
+    @QueryHints(@QueryHint(name="org.hibernate.cacheable", value="true"))
     Optional<Usuario> findByEmail(String email);
 }

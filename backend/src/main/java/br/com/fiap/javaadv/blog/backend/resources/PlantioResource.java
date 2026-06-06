@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -29,7 +30,9 @@ import java.util.stream.Collectors;
 @SecurityRequirement(name = "bearerAuth")
 public class PlantioResource {
     private final PlantioService plantioService;
+
     @GetMapping("/listar")
+    @Cacheable(value = "plantioCache")
     public ResponseEntity<List<PlantioResponse>> fetchAll(@ParameterObject @PageableDefault(page = 0, size = 10, sort = "nome",
             direction = Sort.Direction.ASC) Pageable pageable){
         return ResponseEntity.ok(
@@ -42,6 +45,7 @@ public class PlantioResource {
     }
 
     @GetMapping("/{id}")
+    @Cacheable(value = "plantioCache", key = "#id")
     public ResponseEntity<PlantioResponse> fetchById( @PathVariable UUID id ){
         return this.plantioService.fetchById(id)
                 .map(entidade -> ResponseEntity.ok(PlantioResponse.toDto(entidade)))
@@ -49,6 +53,7 @@ public class PlantioResource {
     }
 
     @GetMapping("/solo/{idTipoSolo}")
+    @Cacheable(value = "plantioTipoSoloCache", key="#tipoSoloId")
     public ResponseEntity<List<PlantioResponse>> fetchByTipoSolo(@PathVariable UUID idTipoSolo, @ParameterObject @PageableDefault(page = 0, size = 10, sort = "nome",
             direction = Sort.Direction.ASC) Pageable pageable){
         return ResponseEntity.ok(

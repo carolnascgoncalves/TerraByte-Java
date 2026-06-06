@@ -7,6 +7,7 @@ import br.com.fiap.javaadv.blog.backend.resources.dtos.SoilGridsResponse;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.SoilGridsResultado;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.SoilResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,6 +21,7 @@ public class SoilGridsServiceImp implements SoilGridsService {
     private final RestTemplate restTemplate;
 
     @Override
+    @Cacheable(value = "soloCache", key = "#lat + '-' + #lon")
     public SoilGridsResultado buscarTipoSolo(double lat, double lon) {
 
         SoilGridsResultado resultado = buscarComRaio(lat, lon);

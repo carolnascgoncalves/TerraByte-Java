@@ -93,6 +93,7 @@ public class UsuarioServiceImp implements UsuarioService {
     }
 
     public Page<Usuario> fetchAll(Pageable pageable){
+        System.out.println("CONSULTANDO O BANCO");
         return this.usuarioRepository.findAll(pageable);
     }
 

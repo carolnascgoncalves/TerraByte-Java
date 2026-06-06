@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -28,6 +29,7 @@ public class DefensivoResource {
     private final DefensivoService defensivoService;
 
     @GetMapping("/listar")
+    @Cacheable(value = "defensivoCache")
     public ResponseEntity<List<DefensivoResponse>> fetchAll(@ParameterObject @PageableDefault(page = 0, size = 10,sort = "tipo",
             direction = Sort.Direction.ASC) Pageable pageable){
         return ResponseEntity.ok(
@@ -40,6 +42,7 @@ public class DefensivoResource {
     }
 
     @GetMapping("/{id}")
+    @Cacheable(value="defensivoCache", key="#id")
     public ResponseEntity<DefensivoResponse> fetchById( @PathVariable UUID id ){
         return this.defensivoService.fetchById(id)
                 .map(entidade -> ResponseEntity.ok(DefensivoResponse.toDto(entidade)))
@@ -47,6 +50,7 @@ public class DefensivoResource {
     }
 
     @GetMapping("/tipo/{nomeTipo}")
+    @Cacheable(value="defensivoTipoCache", key="#tipo")
     public ResponseEntity<List<DefensivoResponse>> fetchByTipo(@PathVariable String nomeTipo,
             @ParameterObject @PageableDefault(page = 0, size = 10) Pageable pageable){
 

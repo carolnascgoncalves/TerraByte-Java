@@ -11,6 +11,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -32,6 +34,7 @@ public class AnaliseResource {
     private final AnaliseService analiseService;
 
     @PostMapping
+    @CachePut(value = "analiseRequest", key="#AnaliseRequest.id")
     public ResponseEntity<AnaliseRequest> create(Authentication authentication, @RequestParam UUID idEndereco, @RequestParam UUID idPlantio){
         String email = authentication.getName();
         var request = AnaliseRequest.builder().idEndereco(idEndereco).idPlantio(idPlantio).build();
@@ -49,6 +52,7 @@ public class AnaliseResource {
     }
 
     @GetMapping("/listar")
+    @Cacheable( value = "analiseRequest")
     public ResponseEntity<List<AnaliseResponse>> fetchAll(Authentication authentication, @ParameterObject @PageableDefault(page = 0, size = 10, sort = "data", direction = Sort.Direction.DESC) Pageable pageable){
         String email = authentication.getName();
         return ResponseEntity.ok(
@@ -61,6 +65,7 @@ public class AnaliseResource {
     }
 
     @GetMapping("/{id}")
+    @Cacheable(value="analiseRequest", key="#id")
     public ResponseEntity<AnaliseResponse> fetchById(@PathVariable UUID id, Authentication authentication) {
         String email = authentication.getName();
 

@@ -4,6 +4,7 @@ import br.com.fiap.javaadv.blog.backend.anticorruptionlayer.interfaces.Geocoding
 import br.com.fiap.javaadv.blog.backend.resources.dtos.CoordenadaResponse;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.OpenMeteoResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -13,6 +14,7 @@ public class GeocodingServiceImp implements GeocodingService {
     private final RestTemplate restTemplate;
 
     @Override
+    @Cacheable(value = "geocodingCache", key = "#cidade + '-' + #estado")
     public CoordenadaResponse buscarCoordenadas(String cidade, String estado) {
 
         String url =
