@@ -8,15 +8,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface DefensivoService {
-    Defensivo create(Defensivo defensivo);
-
     Page<Defensivo> fetchAll(Pageable pageable);
 
     Optional<Defensivo> fetchById(UUID id);
-
-    boolean existsById(UUID id);
-
-    void delete(UUID id);
 
     Page<Defensivo> fetchByTipo(String tipo, Pageable pageable);
 }

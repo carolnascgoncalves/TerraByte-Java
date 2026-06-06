@@ -1,6 +1,7 @@
 package br.com.fiap.javaadv.blog.backend.resources;
 
 import br.com.fiap.javaadv.blog.backend.domainmodel.entities.EnderecoPlantio;
+import br.com.fiap.javaadv.blog.backend.domainmodel.entities.Plantio;
 import br.com.fiap.javaadv.blog.backend.domainmodel.entities.Usuario;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.*;
 import br.com.fiap.javaadv.blog.backend.services.interfaces.EnderecoPlanService;
@@ -11,6 +12,8 @@ import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -67,21 +70,6 @@ public class EnderecoResource {
 
     }
 
-    /*
-    @GetMapping("/listar")
-    public ResponseEntity<List<EnderecoResponse>> fetchAll(@ParameterObject @PageableDefault(page = 0, size = 10, sort = "nome",
-            direction = Sort.Direction.ASC) Pageable pageable){
-        return ResponseEntity.ok(
-                this.enderecoPlanService.fetchAll(pageable)
-                        .getContent()
-                        .stream()
-                        .map(EnderecoResponse::toDto)
-                        .collect(Collectors.toList())
-        );
-    }
-
-     */
-
     @GetMapping("/listar")
     public ResponseEntity<List<EnderecoResponse>> fetchAll(Authentication authentication, @ParameterObject @PageableDefault(page = 0, size = 10, sort = "nome", direction = Sort.Direction.ASC) Pageable pageable) {
         String email = authentication.getName();
@@ -102,4 +90,17 @@ public class EnderecoResource {
                 .orElseGet( () -> ResponseEntity.notFound().build() );
     }
 
+    @GetMapping("/test-cache")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<String> testCache() {
+        long start = System.currentTimeMillis();
+
+        Page<EnderecoPlantio> entidades = enderecoPlanService.fetchAll(PageRequest.of(0, 1));
+
+        long end = System.currentTimeMillis();
+        long elapsed = end - start;
+
+        System.out.println("Tempo de execução: " + elapsed + " ms (" + entidades.getTotalElements() + " EnderecoPlantio)");
+        return ResponseEntity.ok("Executado em " + elapsed + " ms. " + entidades.getTotalElements() + " EnderecoPlantio encontrados.");
+    }
 }

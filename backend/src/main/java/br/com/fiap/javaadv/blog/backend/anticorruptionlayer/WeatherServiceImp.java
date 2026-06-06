@@ -1,6 +1,5 @@
 package br.com.fiap.javaadv.blog.backend.anticorruptionlayer;
 
-import br.com.fiap.javaadv.blog.backend.resources.dtos.OpenMeteoResponse;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.WeatherResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;

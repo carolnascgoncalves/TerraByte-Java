@@ -4,6 +4,9 @@ import br.com.fiap.javaadv.blog.backend.datasource.repositories.UsuarioRepositor
 import br.com.fiap.javaadv.blog.backend.domainmodel.entities.AuthUser;
 import br.com.fiap.javaadv.blog.backend.domainmodel.entities.Usuario;
 import br.com.fiap.javaadv.blog.backend.services.interfaces.UsuarioService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,11 +28,14 @@ public class UsuarioServiceImp implements UsuarioService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
+    @CachePut(value = "usuarioCache", key = "#result.id")
     public Usuario create(Usuario usuario){
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         return this.usuarioRepository.save(usuario);
     }
 
     @Override
+    @CachePut(value = "usuarioCache", key = "#id")
     public Optional<Usuario> update(UUID id, Usuario patch) {
         return usuarioRepository.findById(id)
                 .map(existing -> {
@@ -37,7 +43,7 @@ public class UsuarioServiceImp implements UsuarioService {
                         existing.setTelefone(patch.getTelefone());
 
                     if (patch.getSenha() != null)
-                        existing.setSenha(patch.getSenha());
+                        existing.setSenha(passwordEncoder.encode(patch.getSenha()));
 
                     if (patch.getUrlImg() != null)
                         existing.setUrlImg(patch.getUrlImg());
@@ -47,6 +53,7 @@ public class UsuarioServiceImp implements UsuarioService {
     }
 
     @Override
+    @CachePut(value = "usuarioCache", key = "#result.get().id", condition = "#result.isPresent()")
     public Optional<Usuario> updateByEmail(String email, Usuario patch) {
         return usuarioRepository.findByEmail(email)
                 .map(existing -> {
@@ -58,7 +65,7 @@ public class UsuarioServiceImp implements UsuarioService {
                         existing.setEmail(patch.getEmail());
 
                     if (patch.getSenha() != null)
-                        existing.setSenha(patch.getSenha());
+                        existing.setSenha(passwordEncoder.encode(patch.getSenha()));
 
                     if (patch.getUrlImg() != null)
                         existing.setUrlImg(patch.getUrlImg());
@@ -68,6 +75,7 @@ public class UsuarioServiceImp implements UsuarioService {
     }
 
     @Override
+    @CacheEvict(value = "usuarioCache", key = "#id")
     public void delete(UUID id){
         usuarioRepository.deleteById(id);
     }
@@ -81,6 +89,7 @@ public class UsuarioServiceImp implements UsuarioService {
     }
 
     @Override
+    @Cacheable(value = "usuarioCache", key = "#id")
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public Optional<Usuario> fetchById(UUID id){
         return this.usuarioRepository.findById(id);

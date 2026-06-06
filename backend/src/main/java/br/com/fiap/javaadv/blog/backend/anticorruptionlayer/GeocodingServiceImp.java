@@ -27,18 +27,13 @@ public class GeocodingServiceImp implements GeocodingService {
         OpenMeteoResponse response =
                 restTemplate.getForObject(url, OpenMeteoResponse.class);
 
-        if (response == null
-                || response.getResults() == null
-                || response.getResults().isEmpty()) {
-
+        if (response == null || response.getResults() == null || response.getResults().isEmpty()) {
             throw new RuntimeException("Cidade não encontrada.");
         }
 
-        OpenMeteoResponse.Result result =
-                response.getResults().getFirst();
+        OpenMeteoResponse.Result result = response.getResults().getFirst();
 
-        CoordenadaResponse coordenada =
-                new CoordenadaResponse();
+        CoordenadaResponse coordenada = new CoordenadaResponse();
 
         coordenada.setLatitude(result.getLatitude());
         coordenada.setLongitude(result.getLongitude());

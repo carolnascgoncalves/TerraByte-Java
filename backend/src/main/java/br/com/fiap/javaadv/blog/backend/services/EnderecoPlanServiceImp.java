@@ -47,41 +47,18 @@ public class EnderecoPlanServiceImp implements EnderecoPlanService {
 
         ViaCepResponse viaCep = viaCepServiceImp.buscarCep(end.getCep());
         CoordenadaResponse coordenada = geocodingService.buscarCoordenadas(viaCep.getLocalidade(), viaCep.getEstado());
+        end.preencherEndereco(viaCep, coordenada);
 
-        double latitude = coordenada.getLatitude();
-        double longitude = coordenada.getLongitude();
-
-        if (viaCep.getLogradouro() == null) {
-            throw new RuntimeException("CEP não encontrado.");
-        }
-
-        end.setLogradouro(viaCep.getLogradouro());
-        end.setCidade(viaCep.getLocalidade());
-        end.setEstado(viaCep.getEstado());
-
-        end.setLatitude(latitude);
-        end.setLongitude(longitude);
-
-        SoilGridsResultado resultado = soilService.buscarTipoSolo(latitude, longitude);
-
-        TipoSoloEnum tpSoloclassific = resultado.getTipoSolo();
-
-        end.setRaioSoloKm(resultado.getRaioKm());
-
-        end.setArgila(resultado.getSoilValues().getClay());
-        end.setAreia(resultado.getSoilValues().getSand());
-        end.setSilto(resultado.getSoilValues().getSilt());
-
-        TipoSolo tipoSolo = tipoSoloRepository.findByNome(tpSoloclassific.name()).orElseThrow(() ->
-                                new RuntimeException("Tipo de solo não encontrado: " + tpSoloclassific.name()));
-
-        end.setTipoSolo(tipoSolo);
+        SoilGridsResultado resultado = soilService.buscarTipoSolo(end.getLatitude(), end.getLongitude());
+        TipoSolo tipoSolo = tipoSoloRepository.findByNome(resultado.getTipoSolo().name()).orElseThrow(() -> new RuntimeException("Tipo de solo não encontrado"));
+        end.preencherSolo(resultado, tipoSolo);
 
         return enderecoRepository.save(end);
     }
 
 
     @Override
+    @CachePut(value = "enderecoCache", key = "#id")
     public Optional<EnderecoPlantio> update(UUID id, EnderecoPlantio patch) {
         return enderecoRepository.findById(id)
                 .map(existing -> {
@@ -89,13 +66,12 @@ public class EnderecoPlanServiceImp implements EnderecoPlanService {
                         existing.setNome(patch.getNome());
                     return enderecoRepository.save(existing);
                 });
-
     }
 
 
 
     @Override
-    @CacheEvict(value="enderecoCache", allEntries = true)
+    @CacheEvict(value="enderecoCache", key="#id")
     public void delete(UUID id){
         enderecoRepository.deleteById(id);
     }
@@ -122,7 +98,6 @@ public class EnderecoPlanServiceImp implements EnderecoPlanService {
     }
 
     @Override
-    @Cacheable( value = "enderecoCache")
     public Page<EnderecoPlantio> fetchAllByUsuario(String email, Pageable pageable) {
         return enderecoRepository.findByUsuarioEmail(email, pageable);
     }

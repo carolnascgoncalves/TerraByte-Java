@@ -26,8 +26,6 @@ public class AuthController {
     private UserDetailsService userDetailsService;
 
 
-
-    //temp token eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3NzkxMTQ2ODYsImV4cCI6MTc3OTIwMTA4Nn0.xbaM4ZReHcAKI804N9dIx54_VGIw1_lZ1mWN6ZP3GBo
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestParam String email, @RequestParam String senha){
         var request = AuthRequest.builder().email(email).password(senha).build();

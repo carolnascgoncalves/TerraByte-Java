@@ -14,7 +14,4 @@ public interface TipoSoloService {
 
     Optional<TipoSolo> fetchById(UUID id);
 
-    boolean existsById(UUID id);
-
-    void delete(UUID id);
 }

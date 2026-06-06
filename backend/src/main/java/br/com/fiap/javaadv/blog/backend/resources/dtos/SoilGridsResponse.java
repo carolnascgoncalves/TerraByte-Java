@@ -6,34 +6,22 @@ import lombok.Setter;
 import java.util.List;
 
 public class SoilGridsResponse {
-    private Properties properties;
-
-    public Properties getProperties() {
-        return properties;
-    }
+    private @Getter @Setter Properties properties;
 
     public static class Properties {
-        private List<Layers> layers;
-        public List<Layers> getLayers() {return layers;}
+        private @Getter @Setter  List<Layers> layers;
     }
 
     public static class Layers {
-        private String name;
-        private List<Depths> depths;
-
-        public String getName() {return name;}
-        public List<Depths> getDepths() {return depths;}
+        private @Getter @Setter  String name;
+        private @Getter @Setter  List<Depths> depths;
     }
 
     public static class Depths {
-        private Values values;
-
-        public Values getValues() {return values;}
+        private @Getter @Setter  Values values;
     }
 
     public static class Values {
-        private Double mean;
-
-        public Double getMean() {return mean;}
+        private @Getter @Setter  Double mean;
     }
 }

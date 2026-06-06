@@ -1,5 +1,8 @@
 package br.com.fiap.javaadv.blog.backend.domainmodel.entities;
 
+import br.com.fiap.javaadv.blog.backend.resources.dtos.CoordenadaResponse;
+import br.com.fiap.javaadv.blog.backend.resources.dtos.SoilGridsResultado;
+import br.com.fiap.javaadv.blog.backend.resources.dtos.ViaCepResponse;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -97,5 +100,36 @@ public class EnderecoPlantio {
         if (id == null) {
             id = UUID.randomUUID();
         }
+    }
+
+    public void preencherEndereco(
+            ViaCepResponse viaCep,
+            CoordenadaResponse coordenada
+    ) {
+
+        if (viaCep.getLogradouro() == null) {
+            throw new RuntimeException("CEP não encontrado.");
+        }
+
+        this.logradouro = viaCep.getLogradouro();
+        this.cidade = viaCep.getLocalidade();
+        this.estado = viaCep.getEstado();
+
+        this.latitude = coordenada.getLatitude();
+        this.longitude = coordenada.getLongitude();
+    }
+
+    public void preencherSolo(
+            SoilGridsResultado resultado,
+            TipoSolo tipoSolo
+    ) {
+
+        this.raioSoloKm = resultado.getRaioKm();
+
+        this.argila = resultado.getSoilValues().getClay();
+        this.areia = resultado.getSoilValues().getSand();
+        this.silto = resultado.getSoilValues().getSilt();
+
+        this.tipoSolo = tipoSolo;
     }
 }

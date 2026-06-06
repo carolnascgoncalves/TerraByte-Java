@@ -17,10 +17,4 @@ public interface AnaliseService {
     Page<AnalisePlantio> fetchAllByUsuario(String email, Pageable pageable);
 
     Optional<AnalisePlantio> fetchByIdAndUsuario(UUID id, String email);
-
-    Optional<AnalisePlantio> fetchById(UUID id);
-
-    boolean existsById(UUID id);
-
-    void delete(UUID id);
 }

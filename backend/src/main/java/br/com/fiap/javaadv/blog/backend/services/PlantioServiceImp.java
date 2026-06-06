@@ -6,6 +6,7 @@ import br.com.fiap.javaadv.blog.backend.domainmodel.entities.Plantio;
 import br.com.fiap.javaadv.blog.backend.domainmodel.entities.TipoSolo;
 import br.com.fiap.javaadv.blog.backend.services.interfaces.PlantioService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,35 +28,30 @@ public class PlantioServiceImp implements PlantioService {
     }
 
     @Override
-    public void delete(UUID id){
-        plantioRepository.deleteById(id);
-    }
-
-    @Override
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    @Cacheable(value = "plantioByIdCache", key = "#id")
     public Optional<Plantio> fetchById(UUID id){
         return this.plantioRepository.findById(id);
     }
 
     @Override
-    @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public boolean existsById(UUID id){
-        return this.plantioRepository.existsById(id);
-    }
-
+    @Cacheable(value = "plantioListCache", key = "#pageable.pageNumber")
     public Page<Plantio> fetchAll(Pageable pageable){
         return this.plantioRepository.findAll(pageable);
     }
 
+
     @Override
+    @Cacheable(value = "plantioTipoSoloCache", key = "#tipoSoloId")
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public Page<Plantio> fetchByTipoSolo(UUID tipoSoloId, Pageable pageable){
-        return plantioRepository.findByTiposSolo_Id(tipoSoloId, pageable);
+        return plantioRepository.findByTipoSolo(tipoSoloId, pageable);
     }
 
     @Override
+    @Cacheable(value = "plantioDefensivoCache", key = "#defensivoId")
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public Page<Plantio> fetchByDefensivo(UUID defensivoId, Pageable pageable){
-        return plantioRepository.findByDefensivos_Id(defensivoId, pageable);
+        return plantioRepository.findByDefensivo(defensivoId, pageable);
     }
 }

@@ -5,7 +5,6 @@ import br.com.fiap.javaadv.blog.backend.domainmodel.enums.TipoSoloEnum;
 import br.com.fiap.javaadv.blog.backend.domainmodel.services.SoilValues;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.SoilGridsResponse;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.SoilGridsResultado;
-import br.com.fiap.javaadv.blog.backend.resources.dtos.SoilResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -53,11 +52,8 @@ public class SoilGridsServiceImp implements SoilGridsService {
     }
 
     private SoilValues buscarSolo(double lat, double lon) {
-
         try {
-
-            String url =
-                    "https://rest.isric.org/soilgrids/v2.0/properties/query" +
+            String url = "https://rest.isric.org/soilgrids/v2.0/properties/query" +
                             "?lat=" + lat +
                             "&lon=" + lon +
                             "&property=clay" +
