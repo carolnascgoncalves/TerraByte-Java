@@ -89,6 +89,9 @@ springdoc:
 
 logging:
   level:
+    org.hibernate.SQL: OFF
+    org.hibernate.orm.jdbc.bind: OFF
+    org.springframework.transaction: OFF
     root: INFO
     org:
       hibernate:

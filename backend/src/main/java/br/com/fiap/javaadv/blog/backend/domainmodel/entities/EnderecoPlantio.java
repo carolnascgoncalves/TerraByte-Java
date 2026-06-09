@@ -68,7 +68,7 @@ public class EnderecoPlantio {
 
     //RELACIONAMENTOS
     //N:1 Tipo solo
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_SOLO_FK")
     private @Getter @Setter TipoSolo tipoSolo;
 

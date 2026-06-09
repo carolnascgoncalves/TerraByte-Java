@@ -35,21 +35,21 @@ public class PlantioServiceImp implements PlantioService {
     }
 
     @Override
-    @Cacheable(value = "plantioListCache", key = "#pageable.pageNumber")
+    @Cacheable(value = "plantioListCache", key = "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort")
     public Page<Plantio> fetchAll(Pageable pageable){
         return this.plantioRepository.findAll(pageable);
     }
 
 
     @Override
-    @Cacheable(value = "plantioTipoSoloCache", key = "#tipoSoloId")
+    @Cacheable(value = "plantioTipoSoloCache", key = "#tipoSoloId + '-' + #pageable.pageNumber + '-' + #pageable.pageSize")
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public Page<Plantio> fetchByTipoSolo(UUID tipoSoloId, Pageable pageable){
         return plantioRepository.findByTipoSolo(tipoSoloId, pageable);
     }
 
     @Override
-    @Cacheable(value = "plantioDefensivoCache", key = "#defensivoId")
+    @Cacheable(value = "plantioDefensivoCache", key = "#defensivoId + '-' + #pageable.pageNumber + '-' + #pageable.pageSize")
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public Page<Plantio> fetchByDefensivo(UUID defensivoId, Pageable pageable){
         return plantioRepository.findByDefensivo(defensivoId, pageable);

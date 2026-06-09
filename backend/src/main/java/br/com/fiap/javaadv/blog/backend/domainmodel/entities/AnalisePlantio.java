@@ -45,17 +45,17 @@ public class AnalisePlantio {
 
     //RELACIONAMENTOS
     //N:1 Usuario
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="ID_usu_(PK)")
     private @Getter @Setter Usuario usuario;
 
     //N:1 Plantio
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="ID_plan_(PK)")
     private @Getter @Setter Plantio plantio;
 
     //N:1 Endereco
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="ID_end_(PK)")
     private  @Getter @Setter EnderecoPlantio enderecoPlantio;
 

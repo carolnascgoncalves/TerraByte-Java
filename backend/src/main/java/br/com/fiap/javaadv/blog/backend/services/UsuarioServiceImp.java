@@ -92,6 +92,7 @@ public class UsuarioServiceImp implements UsuarioService {
     @Cacheable(value = "usuarioCache", key = "#id")
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public Optional<Usuario> fetchById(UUID id){
+        System.out.println("CONSULTANDO USUARIO NO BANCO");
         return this.usuarioRepository.findById(id);
     }
 
@@ -101,12 +102,15 @@ public class UsuarioServiceImp implements UsuarioService {
         return this.usuarioRepository.existsById(id);
     }
 
+    @Override
+    @Cacheable(value = "usuarioListCache", key = "#pageable.pageNumber + '-' + #pageable.pageSize")
     public Page<Usuario> fetchAll(Pageable pageable){
         System.out.println("CONSULTANDO O BANCO");
         return this.usuarioRepository.findAll(pageable);
     }
 
     @Override
+    @Cacheable(value = "usuarioByEmailCache", key = "#email")
     public Optional<Usuario> fetchEntityByEmail(String email) {
         return usuarioRepository.findByEmail(email);
     }

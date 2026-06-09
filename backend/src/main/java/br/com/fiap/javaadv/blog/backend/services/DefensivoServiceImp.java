@@ -30,13 +30,13 @@ public class DefensivoServiceImp implements DefensivoService {
     }
 
 
-    @Cacheable(value="defensivoListCache", key="#pageable.pageNumber")
+    @Cacheable(value="defensivoListCache", key="#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort")
     public Page<Defensivo> fetchAll(Pageable pageable){
         return this.defensivoRepository.findAll(pageable);
     }
 
     @Override
-    @Cacheable(value="defensivoTipoCache", key="#tipo")
+    @Cacheable(value="defensivoTipoCache", key="#tipo + '-' + #pageable.pageNumber + '-' + #pageable.pageSize")
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public Page<Defensivo> fetchByTipo(String tipo, Pageable pageable){
         return defensivoRepository.findByTipo(tipo, pageable);

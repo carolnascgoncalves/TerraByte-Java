@@ -35,7 +35,7 @@ public class TipoSoloServiceImp implements TipoSoloService {
 
 
     @Override
-    @Cacheable(value = "tipoSoloListCache", key = "#pageable.pageNumber")
+    @Cacheable(value = "plantioDefensivoCache", key = "#defensivoId + '-' + #pageable.pageNumber + '-' + #pageable.pageSize")
     public Page<TipoSolo> fetchAll(Pageable pageable){
         return this.tipoSoloRepository.findAll(pageable);
     }

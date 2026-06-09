@@ -93,6 +93,10 @@ public class EnderecoPlanServiceImp implements EnderecoPlanService {
     public boolean existsByName(String nome){ return this.enderecoRepository.existsByNome(nome);}
 
     @Override
+    @Cacheable(
+            value="enderecoListCache",
+            key="#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort"
+    )
     public Page<EnderecoPlantio> fetchAll(Pageable pageable){
         return this.enderecoRepository.findAll(pageable);
     }

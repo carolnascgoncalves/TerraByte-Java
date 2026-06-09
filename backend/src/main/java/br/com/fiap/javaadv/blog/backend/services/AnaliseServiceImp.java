@@ -36,7 +36,6 @@ public class AnaliseServiceImp implements AnaliseService {
     private final PlantioRepository plantioRepository;
 
     @Override
-    @CachePut(value = "analiseByIdCache", key = "#result.id")
     public AnalisePlantio create(AnalisePlantio analise, String email) {
         Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
@@ -59,7 +58,7 @@ public class AnaliseServiceImp implements AnaliseService {
     }
 
     @Override
-    @Cacheable(value = "analiseUsuarioCache", key = "#email + '-' + #pageable.pageNumber")
+    @Cacheable(value = "analiseUsuarioCache", key = "#email + '-' + #pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort")
     public Page<AnalisePlantio> fetchAllByUsuario(String email, Pageable pageable) {
         return analiseRepository.findByUsuarioEmail(email, pageable);
     }
