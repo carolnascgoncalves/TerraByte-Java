@@ -14,6 +14,7 @@ public class ViaCepServiceImp implements ViaCepService {
         this.restClient = RestClient.create();
     }
 
+    @Override
     @Cacheable(value="cepCache", key="#cep")
     public ViaCepResponse buscarCep(String cep) {
         return restClient

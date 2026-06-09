@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 public class WeatherServiceImp implements WeatherService {
     private final RestTemplate restTemplate = new RestTemplate();
 
+    @Override
     @Cacheable(value="weatherCache", key="#latitude + '-' + #longitude")
     public WeatherResponse getForecast(double lat, double lon) {
 

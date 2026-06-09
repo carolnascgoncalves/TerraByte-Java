@@ -30,6 +30,7 @@ public class DefensivoServiceImp implements DefensivoService {
     }
 
 
+    @Override
     @Cacheable(value="defensivoListCache", key="#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort")
     public Page<Defensivo> fetchAll(Pageable pageable){
         return this.defensivoRepository.findAll(pageable);

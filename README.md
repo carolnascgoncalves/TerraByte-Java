@@ -71,9 +71,13 @@ src/main/java
 
 ---
 
-# 🎥 Vídeo de apresentação
+# 🎥 Vídeos
 
-* LINK VIDEO
+### Apresentação
+* https://youtu.be/7eKmwgJ9YtQ
+
+### Pitch
+*  https://www.youtube.com/watch?v=3tU1FO5FDAM
 
 ---
 

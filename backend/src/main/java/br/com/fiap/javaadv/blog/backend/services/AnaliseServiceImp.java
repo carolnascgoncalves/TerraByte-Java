@@ -60,7 +60,6 @@ public class AnaliseServiceImp implements AnaliseService {
     }
 
     @Override
-
     public Page<AnalisePlantio> fetchAllByUsuario(String email, Pageable pageable) {
         return analiseRepository.findByUsuarioEmail(email, pageable);
     }
