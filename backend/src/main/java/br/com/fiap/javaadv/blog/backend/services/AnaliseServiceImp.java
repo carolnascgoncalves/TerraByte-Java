@@ -53,12 +53,14 @@ public class AnaliseServiceImp implements AnaliseService {
 
 
     @Override
+    @Cacheable(value = "analiseUsuarioCache",
+            key = "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort")
     public Page<AnalisePlantio> fetchAll(Pageable pageable){
         return this.analiseRepository.findAll(pageable);
     }
 
     @Override
-    @Cacheable(value = "analiseUsuarioCache", key = "#email + '-' + #pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort")
+
     public Page<AnalisePlantio> fetchAllByUsuario(String email, Pageable pageable) {
         return analiseRepository.findByUsuarioEmail(email, pageable);
     }
