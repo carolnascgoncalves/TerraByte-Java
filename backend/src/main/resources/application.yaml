@@ -111,12 +111,14 @@ logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"
 
-  file:
-    name: application.log
-    path: logs
+
+  #file:
+    #name: application.log
+    #path: logs
+
 
 server:
-  port: 8080
+  port: ${PORT:8080}
   servlet:
     context-path: /
   compression:
