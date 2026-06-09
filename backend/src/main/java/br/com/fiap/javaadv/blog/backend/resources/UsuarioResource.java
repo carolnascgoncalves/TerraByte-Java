@@ -5,6 +5,7 @@ import br.com.fiap.javaadv.blog.backend.resources.dtos.UsuarioDadosRequest;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.UsuarioRequest;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.UsuarioResponse;
 import br.com.fiap.javaadv.blog.backend.services.interfaces.UsuarioService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

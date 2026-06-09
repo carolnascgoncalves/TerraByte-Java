@@ -1,5 +1,6 @@
 package br.com.fiap.javaadv.blog.backend.anticorruptionlayer;
 
+import br.com.fiap.javaadv.blog.backend.anticorruptionlayer.interfaces.WeatherService;
 import br.com.fiap.javaadv.blog.backend.resources.dtos.WeatherResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
@@ -8,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 @RequiredArgsConstructor
-public class WeatherServiceImp {
+public class WeatherServiceImp implements WeatherService {
     private final RestTemplate restTemplate = new RestTemplate();
 
     @Cacheable(value="weatherCache", key="#latitude + '-' + #longitude")
