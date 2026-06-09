@@ -110,7 +110,6 @@ public class UsuarioServiceImp implements UsuarioService {
     }
 
     @Override
-    @Cacheable(value = "usuarioByEmailCache", key = "#email")
     public Optional<Usuario> fetchEntityByEmail(String email) {
         return usuarioRepository.findByEmail(email);
     }
