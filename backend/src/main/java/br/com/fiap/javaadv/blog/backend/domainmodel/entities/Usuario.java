@@ -58,12 +58,12 @@ public class Usuario {
     //RELACIONAMENTOS
     //1:N Analise
     @JsonIgnore
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private @Getter @Setter Set<AnalisePlantio> analises;
 
     //1:N endereço
     @JsonIgnore
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private @Getter @Setter Set<EnderecoPlantio> enderecos;
 
     @Override

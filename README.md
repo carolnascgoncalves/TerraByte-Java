@@ -27,6 +27,7 @@ A solução foi construída utilizando Spring Boot, arquitetura REST API e Sprin
 ## A estrutura do projeto
 Essa separação melhora a manutenção, reutilização e organização do código.
 
+```bash
 src/main/java
 ├── anticorruptionlayer
 │   ├── interfaces
@@ -54,6 +55,7 @@ src/main/java
 │   └── implementações
 │
 └── BackendApplication.java
+```
 
 ---
 
@@ -69,12 +71,110 @@ src/main/java
 
 # Endpoints
 
-## USUARIO
-### GET
-FetchAll
+## • AUTH
+### POST
+**Login**
 
-FetchById
+/auth/login
+
+Recebe um email e uma senha, valida e se correto devolva um Token
+
+* Email: sandra@gmail.com
+* Senha: sandraReg123
+
 ---
+
+**Refresh**
+
+auth/refresh
+
+Renova o Access Token usando um Refresh Token.
+
+```bash
+{
+  "refreshToken": *Refresh Token*
+}
+```
+
+---
+
+## • USUARIO
+### GET
+**Infos**
+
+/api/usuario/infos
+
+Retorna as informações pessoais do usuário logado
+
+---
+
+**FetchById**
+
+/api/usuario/{*id*}
+
+Retorna um usuário a partir do ID
+
+---
+
+**FetchAll**
+
+/api/usuario/listar
+
+Retorna todos os usuários do sistema
+
+**testCache**
+
+/api/usuario/test-cache
+
+Executa um teste de cache e retorna a quantidade de cadastros, pelo tempo que foi executado
+
+---
+
+### POST
+**Create**
+
+/api/usuario
+
+Cria um usuário no sistema
+
+```bash
+{
+  "nome": "Carolina Nascimento",
+  "dataNascimento": "2006-11-20",
+  "telefone": "11947163194",
+  "sexo": "F",
+  "email": "carolrsc@gmail.com",
+  "senha": "carolNasc123"
+}
+```
+
+---
+
+### PATCH
+**Update**
+
+/api/usuario/{*id*}
+
+Altera telefone, senha e(ou) url da foto do usuário
+
+```bash
+{
+  "telefone": "11945414013",
+  "senha": "sandraReg1234",
+  "urlImg": "https://exemplo.com/NovaFotoSandra.png"
+}
+```
+
+---
+
+### DELETE
+**DeleteById**
+
+/api/usuario{*id*}
+
+Apaga um usuário pelo seu id, efetuando o logout automaticamente
+
+* Id: 978c415d-7c8b-4b37-af9a-d54fcb1bda46
 
 ---
 

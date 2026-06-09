@@ -74,7 +74,7 @@ public class EnderecoPlantio {
 
     //1:N Analise
     @JsonIgnore
-    @OneToMany(mappedBy = "enderecoPlantio", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "enderecoPlantio", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private @Getter @Setter Set<AnalisePlantio> analises;
 
     //N:1 Usuario
